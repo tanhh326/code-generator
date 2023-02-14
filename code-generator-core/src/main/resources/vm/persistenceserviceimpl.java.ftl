@@ -30,10 +30,10 @@ import ${pkg}.${entityName}UpdateRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,7 +51,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
 
   protected ${entityName}CreateValidate craeteValidate = new ${entityName}CreateValidate();
   protected ${entityName}UpdateValidate updateValidate = new ${entityName}UpdateValidate();
-  @Autowired
+  @Autowired(required = false)
   private ${entityName}Mapper ${entityName?uncap_first}Mapper;
   @Autowired
   private ${entityName}Repository ${entityName?uncap_first}Repository;
