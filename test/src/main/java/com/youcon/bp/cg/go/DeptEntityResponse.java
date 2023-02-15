@@ -1,43 +1,42 @@
 package com.youcon.bp.cg.go;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
-@io.swagger.v3.oas.annotations.media.Schema(description = "用户响应参数")
+@io.swagger.v3.oas.annotations.media.Schema(description = "部门响应参数")
 @Getter
 @Setter
-public class UserEntityResponse {
+public class DeptEntityResponse {
 
 
     /**
-     * 用户名
+     * 部门名称
      **/
-    @Column(name = "username")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "username")
-    @io.swagger.v3.oas.annotations.media.Schema(description="用户名")
-    private String  username;
+    @Column(name = "name")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "name")
+    @io.swagger.v3.oas.annotations.media.Schema(description="部门名称")
+    private String  name;
     /**
-     * 年龄
+     * 单位id
      **/
-    @Column(name = "age")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "age")
-    @io.swagger.v3.oas.annotations.media.Schema(description="年龄")
-    private BigDecimal  age;
+    @Column(name = "companyId")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "companyId")
+    @io.swagger.v3.oas.annotations.media.Schema(description="单位id")
+    private Long  companyId;
     /**
-     * 密码
+     * 父id
      **/
-    @Column(name = "password")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "password")
-    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
-    private String  password;
+    @Column(name = "pid")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "pid")
+    @io.swagger.v3.oas.annotations.media.Schema(description="父id")
+    private Long  pid;
     /**
-     * 邮箱
+     * 领导人
      **/
-    @Column(name = "email")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "email")
-    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
-    private String  email;
+    @Column(name = "leader")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "leader")
+    @io.swagger.v3.oas.annotations.media.Schema(description="领导人")
+    private Long  leader;
 
 
 

@@ -1,43 +1,42 @@
+
 package com.youcon.bp.cg.go;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
-@io.swagger.v3.oas.annotations.media.Schema(description = "用户响应参数")
+
+@Entity
+@Table( name = "dept")
 @Getter
 @Setter
-public class UserEntityResponse {
+@com.baomidou.mybatisplus.annotation.TableName("dept")
+public class DeptEntity {
 
 
     /**
-     * 用户名
+     * 部门名称
      **/
-    @Column(name = "username")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "username")
-    @io.swagger.v3.oas.annotations.media.Schema(description="用户名")
-    private String  username;
+    @Column(name = "name")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "name")
+    private String  name;
     /**
-     * 年龄
+     * 单位id
      **/
-    @Column(name = "age")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "age")
-    @io.swagger.v3.oas.annotations.media.Schema(description="年龄")
-    private BigDecimal  age;
+    @Column(name = "company_id")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "company_id")
+    private Long  companyId;
     /**
-     * 密码
+     * 父id
      **/
-    @Column(name = "password")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "password")
-    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
-    private String  password;
+    @Column(name = "pid")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "pid")
+    private Long  pid;
     /**
-     * 邮箱
+     * 领导人
      **/
-    @Column(name = "email")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "email")
-    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
-    private String  email;
+    @Column(name = "leader")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "leader")
+    private Long  leader;
 
 
 

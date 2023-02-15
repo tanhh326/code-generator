@@ -8,17 +8,17 @@ import java.util.List;
 /**
  * 持久层交互
  **/
-public interface UserEntityPersistenceService  {
+public interface CompanyEntityPersistenceService  {
 
     /**
      * 创建
      */
-    Long save(UserEntityCreateRequest request);
+    Long save(CompanyEntityCreateRequest request);
 
     /**
      * 修改
      */
-    Long update(UserEntityUpdateRequest request);
+    Long update(CompanyEntityUpdateRequest request);
 
     /**
      * 删除
@@ -28,13 +28,13 @@ public interface UserEntityPersistenceService  {
     /**
      * 根据id查询
      */
-    UserEntityResponse byId(Long id);
+    CompanyEntityResponse byId(Long id);
 
 
     /**
     * 根据id集合查询
     */
-    List<UserEntityResponse> byIds(List<Long> ids);
+    List<CompanyEntityResponse> byIds(List<Long> ids);
 
     /**
     * 批量删除
@@ -44,12 +44,12 @@ public interface UserEntityPersistenceService  {
     /**
      * 返回列表
      */
-    List<UserEntityResponse> list(UserEntityQueryRequest request);
+    List<CompanyEntityResponse> list(CompanyEntityQueryRequest request);
 
     /**
      * 分页
      */
-    PageResponse<UserEntityResponse> page(UserEntityQueryRequest request, PageAndSortRequest page);
+    PageResponse<CompanyEntityResponse> page(CompanyEntityQueryRequest request, PageAndSortRequest page);
 
 
 

@@ -26,6 +26,18 @@ public class UserEntity {
     @Column(name = "age")
     @com.baomidou.mybatisplus.annotation.TableField(value = "age")
     private BigDecimal  age;
+    /**
+     * 密码
+     **/
+    @Column(name = "password")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "password")
+    private String  password;
+    /**
+     * 邮箱
+     **/
+    @Column(name = "email")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "email")
+    private String  email;
 
 
 

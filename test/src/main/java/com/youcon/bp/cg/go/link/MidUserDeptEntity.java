@@ -6,11 +6,11 @@ import javax.persistence.*;
 import lombok.*;
 
 @Entity
-@Table( name = "mid_user_role")
+@Table( name = "mid_user_dept")
 @Getter
 @Setter
-@com.baomidou.mybatisplus.annotation.TableName("mid_user_role")
-public class MidUserRoleEntity {
+@com.baomidou.mybatisplus.annotation.TableName("mid_user_dept")
+public class MidUserDeptEntity {
 
 
     /**
@@ -22,9 +22,9 @@ public class MidUserRoleEntity {
     /**
      * 
      **/
-    @Column(name = "role_id")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "role_id")
-    private Long  roleId;
+    @Column(name = "dept_id")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "dept_id")
+    private Long  deptId;
 
 
 

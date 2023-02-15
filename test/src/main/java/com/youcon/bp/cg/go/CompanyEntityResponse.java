@@ -1,43 +1,42 @@
 package com.youcon.bp.cg.go;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
-@io.swagger.v3.oas.annotations.media.Schema(description = "用户响应参数")
+@io.swagger.v3.oas.annotations.media.Schema(description = "单位响应参数")
 @Getter
 @Setter
-public class UserEntityResponse {
+public class CompanyEntityResponse {
 
 
     /**
-     * 用户名
+     * 单位名称
      **/
-    @Column(name = "username")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "username")
-    @io.swagger.v3.oas.annotations.media.Schema(description="用户名")
-    private String  username;
+    @Column(name = "name")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "name")
+    @io.swagger.v3.oas.annotations.media.Schema(description="单位名称")
+    private String  name;
     /**
-     * 年龄
+     * 父id
      **/
-    @Column(name = "age")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "age")
-    @io.swagger.v3.oas.annotations.media.Schema(description="年龄")
-    private BigDecimal  age;
+    @Column(name = "pid")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "pid")
+    @io.swagger.v3.oas.annotations.media.Schema(description="父id")
+    private Long  pid;
     /**
-     * 密码
+     * 图标
      **/
-    @Column(name = "password")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "password")
-    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
-    private String  password;
+    @Column(name = "logo")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "logo")
+    @io.swagger.v3.oas.annotations.media.Schema(description="图标")
+    private String  logo;
     /**
-     * 邮箱
+     * 地址
      **/
-    @Column(name = "email")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "email")
-    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
-    private String  email;
+    @Column(name = "address")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "address")
+    @io.swagger.v3.oas.annotations.media.Schema(description="地址")
+    private String  address;
 
 
 

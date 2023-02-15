@@ -31,6 +31,22 @@ public class UserEntityQueryRequest {
     private List<BigDecimal> ages;
 
 
+    /**
+     * 密码
+     **/
+    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
+    private String  password;
+
+
+
+    /**
+     * 邮箱
+     **/
+    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
+    private String  email;
+
+
+
 
 
 

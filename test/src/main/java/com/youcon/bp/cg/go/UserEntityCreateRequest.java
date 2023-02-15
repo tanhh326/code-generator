@@ -21,6 +21,16 @@ public class UserEntityCreateRequest {
      **/
     @io.swagger.v3.oas.annotations.media.Schema(description="年龄")
     private BigDecimal  age;
+    /**
+     * 密码
+     **/
+    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
+    private String  password;
+    /**
+     * 邮箱
+     **/
+    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
+    private String  email;
 
 
 

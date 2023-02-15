@@ -1,43 +1,21 @@
 package com.youcon.bp.cg.go;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
-@io.swagger.v3.oas.annotations.media.Schema(description = "用户响应参数")
+@io.swagger.v3.oas.annotations.media.Schema(description = "岗位响应参数")
 @Getter
 @Setter
-public class UserEntityResponse {
+public class PostEntityResponse {
 
 
     /**
-     * 用户名
+     * 岗位名称
      **/
-    @Column(name = "username")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "username")
-    @io.swagger.v3.oas.annotations.media.Schema(description="用户名")
-    private String  username;
-    /**
-     * 年龄
-     **/
-    @Column(name = "age")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "age")
-    @io.swagger.v3.oas.annotations.media.Schema(description="年龄")
-    private BigDecimal  age;
-    /**
-     * 密码
-     **/
-    @Column(name = "password")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "password")
-    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
-    private String  password;
-    /**
-     * 邮箱
-     **/
-    @Column(name = "email")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "email")
-    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
-    private String  email;
+    @Column(name = "name")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "name")
+    @io.swagger.v3.oas.annotations.media.Schema(description="岗位名称")
+    private String  name;
 
 
 

@@ -177,7 +177,7 @@ class MasterMainTest {
 
     JavaProperties userEntity = new JavaProperties(to, link.tableName(),
         link.getDesc(), packageName,
-        commonPackage, "com.youcon.bp.cg");
+        commonPackage, "com.youcon.bp.cg.go");
 
     userEntity.addField(Long.class, link.getLeft() + "Id", "", false, link.getLeft() + "Id",
         link.getRight() + "Id");

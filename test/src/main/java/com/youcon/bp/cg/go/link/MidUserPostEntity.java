@@ -1,43 +1,30 @@
-package com.youcon.bp.cg.go;
 
-import java.math.BigDecimal;
+package com.youcon.bp.cg.go.link;
+
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
-@io.swagger.v3.oas.annotations.media.Schema(description = "用户响应参数")
+
+@Entity
+@Table( name = "mid_user_post")
 @Getter
 @Setter
-public class UserEntityResponse {
+@com.baomidou.mybatisplus.annotation.TableName("mid_user_post")
+public class MidUserPostEntity {
 
 
     /**
-     * 用户名
+     * 
      **/
-    @Column(name = "username")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "username")
-    @io.swagger.v3.oas.annotations.media.Schema(description="用户名")
-    private String  username;
+    @Column(name = "user_id")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "user_id")
+    private Long  userId;
     /**
-     * 年龄
+     * 
      **/
-    @Column(name = "age")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "age")
-    @io.swagger.v3.oas.annotations.media.Schema(description="年龄")
-    private BigDecimal  age;
-    /**
-     * 密码
-     **/
-    @Column(name = "password")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "password")
-    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
-    private String  password;
-    /**
-     * 邮箱
-     **/
-    @Column(name = "email")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "email")
-    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
-    private String  email;
+    @Column(name = "post_id")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "post_id")
+    private Long  postId;
 
 
 

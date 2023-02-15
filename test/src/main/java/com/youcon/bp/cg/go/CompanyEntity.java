@@ -1,43 +1,42 @@
+
 package com.youcon.bp.cg.go;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.*;
-@io.swagger.v3.oas.annotations.media.Schema(description = "用户响应参数")
+
+@Entity
+@Table( name = "company")
 @Getter
 @Setter
-public class UserEntityResponse {
+@com.baomidou.mybatisplus.annotation.TableName("company")
+public class CompanyEntity {
 
 
     /**
-     * 用户名
+     * 单位名称
      **/
-    @Column(name = "username")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "username")
-    @io.swagger.v3.oas.annotations.media.Schema(description="用户名")
-    private String  username;
+    @Column(name = "name")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "name")
+    private String  name;
     /**
-     * 年龄
+     * 父id
      **/
-    @Column(name = "age")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "age")
-    @io.swagger.v3.oas.annotations.media.Schema(description="年龄")
-    private BigDecimal  age;
+    @Column(name = "pid")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "pid")
+    private Long  pid;
     /**
-     * 密码
+     * 图标
      **/
-    @Column(name = "password")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "password")
-    @io.swagger.v3.oas.annotations.media.Schema(description="密码")
-    private String  password;
+    @Column(name = "logo")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "logo")
+    private String  logo;
     /**
-     * 邮箱
+     * 地址
      **/
-    @Column(name = "email")
-    @com.baomidou.mybatisplus.annotation.TableField(value = "email")
-    @io.swagger.v3.oas.annotations.media.Schema(description="邮箱")
-    private String  email;
+    @Column(name = "address")
+    @com.baomidou.mybatisplus.annotation.TableField(value = "address")
+    private String  address;
 
 
 
