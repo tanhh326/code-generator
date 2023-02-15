@@ -51,4 +51,23 @@ public interface ${entityName}PersistenceService  {
      */
     PageResponse<${entityName}Response> page(${entityName}QueryRequest request, PageAndSortRequest page);
 
+
+
+
+<#if hasFk>
+<#list  forinKeyList as fk>
+    // ${fk.fkName}
+  /**
+   * 根据${fk.fieldDesc}查询${tableDesc}集合
+   **/
+  List<${entityName}Response> findBy${fk.fkName?cap_first}Id(${fk.fieldType} ${fk.fieldName});
+  /**
+  * 根据${fk.fieldDesc}查询${tableDesc}集合
+  **/
+  List<${entityName}Response> findBy${fk.fkName?cap_first}Ids(List<${fk.fieldType}> ${fk.fieldName}s);
+
+</#list>
+</#if>
+
+
 }

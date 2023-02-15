@@ -10,6 +10,10 @@
 </#function>
 package ${pkg}.impl;
 
+import ${lfEntPKG}.${leftAndRight.rightEntityName?cap_first}EntityResponse;
+import ${lfEntPKG}.${leftAndRight.leftEntityName?cap_first}EntityResponse;
+import ${lfEntPKG}.${leftAndRight.leftEntityName?cap_first}EntityPersistenceService;
+import ${lfEntPKG}.${leftAndRight.rightEntityName?cap_first}EntityPersistenceService;
 import ${pkg}.${entityName};
 import ${pkg}.${entityName}CreateRequest;
 import ${pkg}.${entityName}Mapper;
@@ -26,14 +30,21 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import java.util.Collections;
 
 @Service
 public class ${entityName}PersistenceImpl implements ${entityName}Persistence {
 
-  @Autowired(required = false)
-  private ${entityName}Mapper ${entityName}Mapper;
   @Autowired
-  private ${entityName}Repository ${entityName}Repository;
+  private ${entityName}Mapper ${entityName?uncap_first}Mapper;
+  @Autowired
+  private ${entityName}Repository ${entityName?uncap_first}Repository;
+
+  @Autowired
+  private ${leftAndRight.leftEntityName?cap_first}EntityPersistenceService ${leftAndRight.leftEntityName}EntityPersistenceService;
+  @Autowired
+  private ${leftAndRight.rightEntityName?cap_first}EntityPersistenceService ${leftAndRight.rightEntityName}EntityPersistenceService;
+
 
   @Transactional(rollbackFor = {Exception.class})
   @Override
@@ -58,7 +69,7 @@ public class ${entityName}PersistenceImpl implements ${entityName}Persistence {
       }
     }
     if (!CollectionUtils.isEmpty(list)) {
-      ${entityName}Repository.saveAllAndFlush(list);
+      ${entityName?uncap_first}Repository.saveAllAndFlush(list);
     }
 
   }
@@ -69,29 +80,114 @@ public class ${entityName}PersistenceImpl implements ${entityName}Persistence {
     if (request == null) {
       return;
     }
-    List<${entityName}> all = this.${entityName}Repository.findAll(
+    List<${entityName}> all = per(request);
+    for (${entityName} ${entityName} : all) {
+      ${entityName}.setDeleted(1);
+    }
+    ${entityName?uncap_first}Repository.saveAllAndFlush(all);
+  }
+
+  private List<${entityName}> per(${entityName}CreateRequest request){
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
+    new Specification<${entityName}>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(request.${dashedToCamel("get_${leftAndRight.leftName}")}s())) {
+          predicatesList.add(
+              criteriaBuilder.in(root.get("${leftAndRight.leftName}")).value(request.${dashedToCamel("get_${leftAndRight.leftName}")}s()));
+        }
+        if (!CollectionUtils.isEmpty(request.${dashedToCamel("get_${leftAndRight.rightName}")}s())) {
+          predicatesList.add(
+            criteriaBuilder.in(root.get("${leftAndRight.rightName}")).value(request.${dashedToCamel("get_${leftAndRight.rightName}")}s()));
+        }
+
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+      }
+    });
+    return all;
+  }
+
+  @Override
+  public List<${leftAndRight.rightEntityName?cap_first}EntityResponse> findByLeftIds(${entityName}CreateRequest request) {
+    if (request == null) {
+      return Collections.emptyList();
+    }
+    List<Long> ${leftAndRight.leftName}s = request.${dashedToCamel("get_${leftAndRight.leftName}")}s();
+    if (CollectionUtils.isEmpty(${leftAndRight.leftName}s)) {
+      return Collections.emptyList();
+    }
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
         new Specification<${entityName}>() {
           @Override
           public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
               CriteriaBuilder criteriaBuilder) {
             List<Predicate> predicatesList = new ArrayList<>();
-            if (!CollectionUtils.isEmpty(request.${dashedToCamel("get_${leftAndRight.leftName}")}s())) {
-              predicatesList.add(
+              if (!CollectionUtils.isEmpty(request.${dashedToCamel("get_${leftAndRight.leftName}")}s())) {
+                predicatesList.add(
                   criteriaBuilder.in(root.get("${leftAndRight.leftName}")).value(request.${dashedToCamel("get_${leftAndRight.leftName}")}s()));
-            }
-            if (!CollectionUtils.isEmpty(request.${dashedToCamel("get_${leftAndRight.rightName}")}s())) {
-              predicatesList.add(
-                criteriaBuilder.in(root.get("${leftAndRight.rightName}")).value(request.${dashedToCamel("get_${leftAndRight.rightName}")}s()));
-            }
-
+              }
             Predicate[] predicates = new Predicate[predicatesList.size()];
             return criteriaBuilder.and(predicatesList.toArray(predicates));
 
-          }
+            }
         });
-    for (${entityName} ${entityName} : all) {
-      ${entityName}.setDeleted(1);
+    List<Long> queryIds = all.stream().map(${entityName}::${dashedToCamel("get_${leftAndRight.rightName}")})
+              .toList();
+    return this.${leftAndRight.rightEntityName}EntityPersistenceService.byIds(queryIds);
+  }
+
+  @Override
+  public List<${leftAndRight.leftEntityName?cap_first}EntityResponse> findByRightIds(${entityName}CreateRequest request) {
+    if (request == null) {
+      return Collections.emptyList();
     }
-    ${entityName}Repository.saveAllAndFlush(all);
+    List<Long> ${leftAndRight.rightName}s = request.${dashedToCamel("get_${leftAndRight.rightName}")}s();
+    if (CollectionUtils.isEmpty(${leftAndRight.rightName}s)) {
+      return Collections.emptyList();
+    }
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
+        new Specification<${entityName}>() {
+          @Override
+          public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+              CriteriaBuilder criteriaBuilder) {
+            List<Predicate> predicatesList = new ArrayList<>();
+              if (!CollectionUtils.isEmpty(request.${dashedToCamel("get_${leftAndRight.rightName}")}s())) {
+                predicatesList.add(
+                  criteriaBuilder.in(root.get("${leftAndRight.rightName}")).value(request.${dashedToCamel("get_${leftAndRight.rightName}")}s()));
+              }
+            Predicate[] predicates = new Predicate[predicatesList.size()];
+            return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+            }
+        });
+    List<Long> queryIds = all.stream().map(${entityName}::${dashedToCamel("get_${leftAndRight.leftName}")})
+              .toList();
+    return this.${leftAndRight.leftEntityName}EntityPersistenceService.byIds(queryIds);
+  }
+
+  @Override
+  public List<${leftAndRight.leftEntityName?cap_first}EntityResponse> findLeftAndRightWith${leftAndRight.leftEntityName?cap_first}Entity(${entityName}CreateRequest request) {
+    if (request == null) {
+      return Collections.emptyList();
+    }
+    List<${entityName}> all = per(request);
+    List<Long> queryIds = all.stream().map(${entityName}::${dashedToCamel("get_${leftAndRight.leftName}")})
+          .toList();
+    return this.${leftAndRight.leftEntityName}EntityPersistenceService.byIds(queryIds);
+  }
+
+  @Override
+  public List<${leftAndRight.rightEntityName?cap_first}EntityResponse> findLeftAndRightWith${leftAndRight.rightEntityName?cap_first}Entity(${entityName}CreateRequest request) {
+    if (request == null) {
+      return Collections.emptyList();
+    }
+    List<${entityName}> all = per(request);
+    List<Long> queryIds = all.stream().map(${entityName}::${dashedToCamel("get_${leftAndRight.rightName}")})
+              .toList();
+    return this.${leftAndRight.rightEntityName}EntityPersistenceService.byIds(queryIds);
   }
 }

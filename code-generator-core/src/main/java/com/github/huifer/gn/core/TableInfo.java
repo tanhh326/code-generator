@@ -23,6 +23,7 @@ public class TableInfo {
 
     private boolean range;
 
+    private boolean fk;
   }
 
 

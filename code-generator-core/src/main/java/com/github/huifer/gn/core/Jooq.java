@@ -6,7 +6,6 @@ import static org.jooq.impl.SQLDataType.LOCALDATETIME;
 import static org.jooq.impl.SQLDataType.VARCHAR;
 
 import com.github.huifer.gn.core.TableInfo.FieldInfo;
-import java.util.ArrayList;
 import java.util.List;
 import org.jooq.CreateTableElementListStep;
 import org.jooq.DSLContext;

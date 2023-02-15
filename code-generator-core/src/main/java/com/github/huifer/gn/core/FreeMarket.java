@@ -19,7 +19,8 @@ public class FreeMarket {
       String templateName,
       String eg,
       boolean impl,
-      JavaProperties javaProperties) throws IOException, TemplateException {
+      JavaProperties javaProperties)
+      throws IOException, TemplateException {
 
     // freemarker 配置
     Configuration configuration = new Configuration(
@@ -42,7 +43,7 @@ public class FreeMarket {
 
 
     String out = rootPath.concat(Stream.of(packageName.split("\\."))
-        .collect(Collectors.joining("/", "/", "/" + javaName)));
+        .collect(Collectors.joining(File.separator, File.separator, File.separator + javaName)));
 
     // 定义一个输出流来导出代码文件
     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(out));
@@ -57,7 +58,7 @@ public class FreeMarket {
     String templatePath = "/Users/zhangsan/git_repo/sample/basic-project/code-generator/src/main/resources/vm";
     String commonPackage = "com.youcon.bp.cg";
     JavaProperties userEntity = new JavaProperties("UserEntity", "user", "用户", packageName,
-        commonPackage);
+        commonPackage,commonPackage);
 
     userEntity.addField(String.class, "username","年龄",false);
     userEntity.addField(LocalDate.class, "birthday","生日",true);

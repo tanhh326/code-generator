@@ -1,8 +1,5 @@
 package com.github.huifer.gn.core;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-
 import com.github.huifer.gn.core.TableInfo.FieldInfo;
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateException;
@@ -34,66 +31,106 @@ class MasterMainTest {
     // 必填
     age.setType(FieldType.BigDecimal);
     fieldInfos.add(age);
+    FieldInfo password = new FieldInfo();
+    password.setFieldName("password");
+    password.setFieldDesc("密码");
+    password.setType(FieldType.Varchar);
+    fieldInfos.add(password);
+    FieldInfo email = new FieldInfo();
+    email.setFieldDesc("邮箱");
+    email.setFieldName("email");
+    email.setType(FieldType.Varchar);
+    fieldInfos.add(email);
+    FieldInfo phone = new FieldInfo();
+    phone.setFieldName("phone");
+    phone.setFieldDesc("手机");
+    email.setType(FieldType.Varchar);
     tableInfo.setFieldInfos(fieldInfos);
     return tableInfo;
   }
+
+
+  public static TableInfo companyInfo() {
+    TableInfo tableInfo = new TableInfo();
+    tableInfo.setTableName("company");
+    tableInfo.setTableDesc("单位");
+    tableInfo.setMid(false);
+    ArrayList<FieldInfo> fieldInfos = new ArrayList<>();
+
+    FieldInfo name = new FieldInfo();
+    name.setType(FieldType.Varchar);
+    name.setFieldDesc("单位名称");
+    name.setFieldName("name");
+    fieldInfos.add(name);
+    FieldInfo pid = new FieldInfo();
+    pid.setFieldName("pid");
+    pid.setFieldDesc("父id");
+    pid.setType(FieldType.Long);
+    fieldInfos.add(pid);
+
+    FieldInfo logo = new FieldInfo();
+    logo.setType(FieldType.Varchar);
+    logo.setFieldDesc("图标");
+    logo.setFieldName("logo");
+    fieldInfos.add(logo);
+
+    FieldInfo address = new FieldInfo();
+    address.setType(FieldType.Varchar);
+    address.setFieldDesc("地址");
+    address.setFieldName("address");
+    fieldInfos.add(address);
+    tableInfo.setFieldInfos(fieldInfos);
+
+    return tableInfo;
+  }
+
+  public static TableInfo postInfo() {
+    TableInfo tableInfo = new TableInfo();
+    tableInfo.setTableName("post");
+    tableInfo.setTableDesc("岗位");
+    tableInfo.setMid(false);
+    ArrayList<FieldInfo> fieldInfos = new ArrayList<>();
+    FieldInfo name = new FieldInfo();
+    name.setType(FieldType.Varchar);
+    name.setFieldDesc("岗位名称");
+    name.setFieldName("name");
+    fieldInfos.add(name);
+    tableInfo.setFieldInfos(fieldInfos);
+
+    return tableInfo;
+  }
+
 
   public static TableInfo DeptInfo() {
     TableInfo tableInfo = new TableInfo();
     tableInfo.setTableName("dept");
     tableInfo.setTableDesc("部门");
     ArrayList<FieldInfo> fieldInfos = new ArrayList<>();
-    FieldInfo username = new FieldInfo();
-    username.setType(FieldType.Varchar);
-    username.setFieldDesc("部门名称");
-    username.setFieldName("name");
-    fieldInfos.add(username);
+    FieldInfo name = new FieldInfo();
+    name.setType(FieldType.Varchar);
+    name.setFieldDesc("部门名称");
+    name.setFieldName("name");
+    fieldInfos.add(name);
+    FieldInfo companyId = new FieldInfo();
+    companyId.setFieldName("companyId");
+    companyId.setFieldDesc("单位id");
+    companyId.setType(FieldType.Long);
+    companyId.setFk(true);
+    fieldInfos.add(companyId);
+    FieldInfo pid = new FieldInfo();
+    pid.setFieldName("pid");
+    pid.setFieldDesc("父id");
+    pid.setType(FieldType.Long);
+    fieldInfos.add(pid);
+    FieldInfo leader = new FieldInfo();
+    leader.setFieldName("leader");
+    leader.setFieldDesc("领导人");
+    leader.setType(FieldType.Long);
+    fieldInfos.add(leader);
     tableInfo.setFieldInfos(fieldInfos);
     return tableInfo;
   }
 
-  public static LinkTableInfo link() {
-    LinkTableInfo linkTableInfo = new LinkTableInfo("user", "role");
-    return linkTableInfo;
-  }
-
-  @Test
-  void linkTest() throws TemplateException, IOException {
-    String packageName = "com.youcon.bp.cg.go.link";
-
-    LinkTableInfo link = link();
-    String to = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,
-        link.tableName() + "_entity");
-
-    JavaProperties userEntity = new JavaProperties(to, link.tableName(),
-        link.getDesc(), packageName,
-        commonPackage);
-
-    userEntity.addField(Long.class, link.getLeft() + "Id", "", false, link.getLeft()+ "Id",link.getRight()+ "Id");
-    userEntity.addField(Long.class, link.getRight() + "Id", "", false, link.getLeft()+ "Id",link.getRight()+ "Id");
-
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/entity.java.ftl", "", false,
-        userEntity);
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/mapper.java.ftl", "Mapper", false,
-        userEntity);
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/repository.java.ftl", "Repository",
-        false, userEntity);
-
-
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/create.java.ftl", "CreateRequest",
-        false, userEntity);
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/persistence.java.ftl", "Persistence",
-        false, userEntity);
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/persistence.impl.java.ftl", "PersistenceImpl",
-        true, userEntity);   FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/controller.java.ftl", "Controller",
-        false, userEntity);
-  }
-
-  @Test
-  void singlet() throws TemplateException, IOException {
-    extracted(UserInfo());
-    extracted(DeptInfo());
-  }
 
   private static void extracted(TableInfo tableInfo) throws IOException, TemplateException {
     System.out.println(Jooq.extracted(tableInfo));
@@ -104,12 +141,11 @@ class MasterMainTest {
 
     JavaProperties userEntity = new JavaProperties(to, tableInfo.getTableName(),
         tableInfo.getTableDesc(), packageName,
-        commonPackage);
+        commonPackage, commonPackage);
 
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       userEntity.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
-          fieldInfo.getFieldDesc(), fieldInfo.isRange());
-
+          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk());
     }
 
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "entity.java.ftl", "", false,
@@ -132,6 +168,60 @@ class MasterMainTest {
         "PersistenceServiceImpl", true, userEntity);
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "controller.java.ftl", "Controller",
         false, userEntity);
+  }
+
+  private static void extractedLink(String packageName, LinkTableInfo link)
+      throws IOException, TemplateException {
+    String to = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,
+        link.tableName() + "_entity");
+
+    JavaProperties userEntity = new JavaProperties(to, link.tableName(),
+        link.getDesc(), packageName,
+        commonPackage, "com.youcon.bp.cg");
+
+    userEntity.addField(Long.class, link.getLeft() + "Id", "", false, link.getLeft() + "Id",
+        link.getRight() + "Id");
+    userEntity.addField(Long.class, link.getRight() + "Id", "", false, link.getLeft() + "Id",
+        link.getRight() + "Id");
+
+    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/entity.java.ftl", "", false,
+        userEntity);
+    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/mapper.java.ftl", "Mapper", false,
+        userEntity);
+    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/repository.java.ftl",
+        "Repository",
+        false, userEntity);
+
+    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/create.java.ftl", "CreateRequest",
+        false, userEntity);
+    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/persistence.java.ftl",
+        "Persistence",
+        false, userEntity);
+    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/persistence.impl.java.ftl",
+        "PersistenceImpl",
+        true, userEntity);
+    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/controller.java.ftl",
+        "Controller",
+        false, userEntity);
+  }
+
+  @Test
+  void linkTest() throws TemplateException, IOException {
+    String packageName = "com.youcon.bp.cg.go.link";
+    LinkTableInfo userBindDept = new LinkTableInfo("user", "dept");
+    extractedLink(packageName, userBindDept);
+    LinkTableInfo deptBindPost = new LinkTableInfo("dept", "post");
+    extractedLink(packageName, deptBindPost);
+    LinkTableInfo userBindPost = new LinkTableInfo("user", "post");
+    extractedLink(packageName, userBindPost);
+  }
+
+  @Test
+  void singlet() throws TemplateException, IOException {
+    extracted(UserInfo());
+    extracted(DeptInfo());
+    extracted(companyInfo());
+    extracted(postInfo());
   }
 
 }

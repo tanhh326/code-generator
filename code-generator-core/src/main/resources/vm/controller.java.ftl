@@ -80,4 +80,20 @@ public class ${entityName}Controller {
     return ResultResponse.ok("删除成功");
   }
 
+<#if hasFk>
+<#list  forinKeyList as fk>
+  @Operation(summary = "根据${fk.fieldDesc}查询${tableDesc}")
+  @GetMapping("/findBy${fk.fkName?cap_first}Id")
+  public  ResultResponse<List<${entityName}Response>> findBy${fk.fkName?cap_first}Id(${fk.fieldType} ${fk.fieldName}){
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.findBy${fk.fkName?cap_first}Id(${fk.fieldName}));
+  }
+
+  @Operation(summary = "根据${fk.fieldDesc}查询${tableDesc}集合")
+  @GetMapping("/findBy${fk.fkName?cap_first}Ids")
+  public ResultResponse<List<${entityName}Response>> findBy${fk.fkName?cap_first}Ids(List<${fk.fieldType}> ${fk.fieldName}s){
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.findBy${fk.fkName?cap_first}Ids(${fk.fieldName}s));
+  }
+
+</#list>
+</#if>
 }

@@ -1,5 +1,6 @@
 package com.github.huifer.gn.core;
 
+import static org.jooq.impl.SQLDataType.BIGINT;
 import static org.jooq.impl.SQLDataType.DECIMAL;
 import static org.jooq.impl.SQLDataType.LOCALDATE;
 import static org.jooq.impl.SQLDataType.LOCALDATETIME;
@@ -13,6 +14,7 @@ public enum FieldType {
   Varchar(2, VARCHAR.length(255), String.class),
   LocalDateTime(3, LOCALDATETIME, java.time.LocalDateTime.class),
   Date(4, LOCALDATE, LocalDate.class),
+  Long(4, BIGINT, Long.class),
   ;
   private int code;
   private DataType dt;

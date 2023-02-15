@@ -51,7 +51,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
 
   protected ${entityName}CreateValidate craeteValidate = new ${entityName}CreateValidate();
   protected ${entityName}UpdateValidate updateValidate = new ${entityName}UpdateValidate();
-  @Autowired(required = false)
+  @Autowired
   private ${entityName}Mapper ${entityName?uncap_first}Mapper;
   @Autowired
   private ${entityName}Repository ${entityName?uncap_first}Repository;
@@ -181,8 +181,8 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
         predicatesList.add(criteriaBuilder.equal(root.get("${field.fieldName}"), request.${dashedToCamel("get_${field.fieldName}")}()));
       </#if>
   </#list>
-          Predicate[] predicates = new Predicate[predicatesList.size()];
-          return criteriaBuilder.and(predicatesList.toArray(predicates));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
       }
     }, of);
     List<${entityName}> content = all.getContent();
@@ -196,6 +196,56 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
     return new PageResponse<>(all.getTotalElements(), all.getPageable().getPageNumber(),
         all.getPageable().getPageSize(), collect);
   }
+
+<#if hasFk>
+<#list  forinKeyList as fk>
+    // ${fk.fkName}
+  @Override
+  public List<${entityName}Response> findBy${fk.fkName?cap_first}Id(${fk.fieldType} ${fk.fieldName}){
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
+    new Specification<${entityName}>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.equal(root.get("${fk.fieldName}"), ${fk.fieldName}));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+      }
+    });
+
+    return all.stream().map(s -> {
+      ${entityName}Response target = new ${entityName}Response();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+
+  }
+  @Override
+  public List<${entityName}Response> findBy${fk.fkName?cap_first}Ids(List<${fk.fieldType}> ${fk.fieldName}s){
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
+    new Specification<${entityName}>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.in(root.get("${fk.fieldName}")).value(${fk.fieldName}s));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+      }
+    });
+
+    return all.stream().map(s -> {
+      ${entityName}Response target = new ${entityName}Response();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+</#list>
+</#if>
 
   /**
    * 创建校验
@@ -219,8 +269,10 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
         throws IllegalArgumentException {
       Long id = request.getId();
       if (id == null) {
-        throw new IllegalArgumentException("idb必填");
+        throw new IllegalArgumentException("id必填");
       }
     }
   }
+
+
 }
