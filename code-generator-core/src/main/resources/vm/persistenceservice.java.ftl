@@ -4,6 +4,7 @@ package ${pkg};
 import ${commomPKG}.PageAndSortRequest;
 import ${commomPKG}.PageResponse;
 import java.util.List;
+import cn.hutool.core.lang.tree.Tree;
 
 /**
  * 持久层交互
@@ -54,20 +55,31 @@ public interface ${entityName}PersistenceService  {
 
 
 
-<#if hasFk>
+<#if forinKeyList?? && (forinKeyList?size>0)>
 <#list  forinKeyList as fk>
-    // ${fk.fkName}
-  /**
-   * 根据${fk.fieldDesc}查询${tableDesc}集合
-   **/
-  List<${entityName}Response> findBy${fk.fkName?cap_first}Id(${fk.fieldType} ${fk.fieldName});
-  /**
-  * 根据${fk.fieldDesc}查询${tableDesc}集合
-  **/
-  List<${entityName}Response> findBy${fk.fkName?cap_first}Ids(List<${fk.fieldType}> ${fk.fieldName}s);
+    /**
+     * 根据${fk.fieldDesc}查询${tableDesc}集合
+     **/
+    List<${entityName}Response> findBy${fk.fkName?cap_first}Id(${fk.fieldType} ${fk.fieldName});
+    /**
+    * 根据${fk.fieldDesc}查询${tableDesc}集合
+    **/
+    List<${entityName}Response> findBy${fk.fkName?cap_first}Ids(List<${fk.fieldType}> ${fk.fieldName}s);
 
 </#list>
 </#if>
 
+<#if pidField??>
+    /**
+     * 查询树
+     */
+    List<Tree<Object>> tree();
+
+    /**
+     * 构造树
+     */
+    List<Tree<Object>> tree(List<${entityName}> all);
+
+</#if>
 
 }

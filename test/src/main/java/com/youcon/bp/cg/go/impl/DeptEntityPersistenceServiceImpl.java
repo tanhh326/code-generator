@@ -1,4 +1,8 @@
 package com.youcon.bp.cg.go.impl;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.lang.tree.parser.NodeParser;
 import java.util.ArrayList;
 import com.youcon.bp.cg.CreateValidate;
 import com.youcon.bp.cg.PageAndSortRequest;
@@ -210,6 +214,37 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
       BeanUtils.copyProperties(s, target);
       return target;
     }).collect(Collectors.toList());
+  }
+
+
+  /**
+  * 查询树
+  */
+  public List<Tree<Object>> tree(){
+    List<DeptEntity> all = this.deptEntityRepository.findAll();
+    return tree(all);
+  }
+
+  /**
+  * 构造树
+  */
+  public List<Tree<Object>> tree(List<DeptEntity> all){
+    TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+    treeNodeConfig.setIdKey("id");
+    treeNodeConfig.setParentIdKey("pid");
+    List<Tree<Object>> build = TreeUtil.build(all, null, treeNodeConfig,
+      new NodeParser<DeptEntity, Object>() {
+      @Override
+      public void parse(DeptEntity deptEntity, Tree<Object> tree) {
+        tree.setId(deptEntity.getId());
+        tree.setParentId(deptEntity.getPid());
+        tree.putExtra("name", deptEntity.getName());
+        tree.putExtra("companyId", deptEntity.getCompanyId());
+        tree.putExtra("pid", deptEntity.getPid());
+        tree.putExtra("leader", deptEntity.getLeader());
+        }
+      });
+    return build;
   }
 
 

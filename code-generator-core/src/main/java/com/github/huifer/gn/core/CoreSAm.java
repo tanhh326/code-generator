@@ -122,7 +122,7 @@ public class CoreSAm {
         commonPackage, commonPackage);
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       po.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
-          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk());
+          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(),fieldInfo.isPid());
     }
     return po;
   }

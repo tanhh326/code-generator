@@ -4,6 +4,7 @@ package com.youcon.bp.cg.go;
 import com.youcon.bp.cg.PageAndSortRequest;
 import com.youcon.bp.cg.PageResponse;
 import java.util.List;
+import cn.hutool.core.lang.tree.Tree;
 
 /**
  * 持久层交互

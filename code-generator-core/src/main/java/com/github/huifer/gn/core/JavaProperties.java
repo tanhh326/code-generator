@@ -26,6 +26,7 @@ public class JavaProperties {
   private final String tableDesc;
   private final String tableName;
   public LeftAndRight leftAndRight;
+  private Field pidField;
   private boolean hasFk = false;
   public JavaProperties(String entityName, String tableName, String tableDesc, String pkg,
       String commomPKG, String lfEntPKG) {
@@ -35,6 +36,10 @@ public class JavaProperties {
     this.pkg = pkg;
     this.commomPKG = commomPKG;
     this.lfEntPKG = lfEntPKG;
+  }
+
+  public Field getPidField() {
+    return pidField;
   }
 
   public List<Field> getForinKeyList() {
@@ -80,7 +85,8 @@ public class JavaProperties {
     fields.add(field);
   }
 
-  public void addField(Class<?> type, String fieldName, String desc, boolean range, boolean fk) {
+  public void addField(Class<?> type, String fieldName, String desc, boolean range, boolean fk,
+      boolean pid) {
 
     // 处理 java.lang
     final String pattern = "java.lang";
@@ -102,6 +108,9 @@ public class JavaProperties {
       hasFk = true;
     }
     fields.add(field);
+    if (pid) {
+      pidField = field;
+    }
 
   }
 

@@ -121,6 +121,7 @@ class MasterMainTest {
     pid.setFieldName("pid");
     pid.setFieldDesc("父id");
     pid.setType(FieldType.Long);
+    pid.setPid(true);
     fieldInfos.add(pid);
     FieldInfo leader = new FieldInfo();
     leader.setFieldName("leader");
@@ -145,7 +146,7 @@ class MasterMainTest {
 
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       userEntity.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
-          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk());
+          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(),fieldInfo.isPid());
     }
 
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "entity.java.ftl", "", false,

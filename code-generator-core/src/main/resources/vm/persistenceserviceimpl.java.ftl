@@ -13,6 +13,12 @@ package ${pkg}.impl;
 import ${impt};
 
 </#list>
+<#if pidField??>
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.lang.tree.parser.NodeParser;
+</#if>
 import java.util.ArrayList;
 import ${commomPKG}.CreateValidate;
 import ${commomPKG}.PageAndSortRequest;
@@ -245,6 +251,38 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
   }
 
 </#list>
+</#if>
+
+<#if pidField??>
+  /**
+  * 查询树
+  */
+  public List<Tree<Object>> tree(){
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll();
+    return tree(all);
+  }
+
+  /**
+  * 构造树
+  */
+  public List<Tree<Object>> tree(List<${entityName}> all){
+    TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+    treeNodeConfig.setIdKey("id");
+    treeNodeConfig.setParentIdKey("pid");
+    List<Tree<Object>> build = TreeUtil.build(all, null, treeNodeConfig,
+      new NodeParser<${entityName}, Object>() {
+      @Override
+      public void parse(${entityName} ${entityName?uncap_first}, Tree<Object> tree) {
+        tree.setId(${entityName?uncap_first}.getId());
+        tree.setParentId(${entityName?uncap_first}.get${pidField.fieldName?cap_first}());
+        <#list  fields as field>
+        tree.putExtra("${field.fieldName}", ${entityName?uncap_first}.get${field.fieldName?cap_first}());
+        </#list>
+        }
+      });
+    return build;
+  }
+
 </#if>
 
   /**

@@ -4,6 +4,7 @@ package com.youcon.bp.cg.go;
 import com.youcon.bp.cg.PageAndSortRequest;
 import com.youcon.bp.cg.PageResponse;
 import java.util.List;
+import cn.hutool.core.lang.tree.Tree;
 
 /**
  * 持久层交互
@@ -54,16 +55,25 @@ public interface DeptEntityPersistenceService  {
 
 
 
-    // company
-  /**
-   * 根据单位id查询部门集合
-   **/
-  List<DeptEntityResponse> findByCompanyId(Long companyId);
-  /**
-  * 根据单位id查询部门集合
-  **/
-  List<DeptEntityResponse> findByCompanyIds(List<Long> companyIds);
+    /**
+     * 根据单位id查询部门集合
+     **/
+    List<DeptEntityResponse> findByCompanyId(Long companyId);
+    /**
+    * 根据单位id查询部门集合
+    **/
+    List<DeptEntityResponse> findByCompanyIds(List<Long> companyIds);
 
+
+    /**
+     * 查询树
+     */
+    List<Tree<Object>> tree();
+
+    /**
+     * 构造树
+     */
+    List<Tree<Object>> tree(List<DeptEntity> all);
 
 
 }
