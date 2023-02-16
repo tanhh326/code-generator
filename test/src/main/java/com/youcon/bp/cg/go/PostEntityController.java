@@ -44,6 +44,24 @@ public class PostEntityController {
     return ResultResponse.ok(postEntityPersistenceService.update(request));
   }
 
+  @Operation(summary = "根据id查询")
+  @GetMapping("/byId")
+  public ResultResponse<PostEntityResponse> byId(
+      Long id
+  ) {
+    return ResultResponse.ok(postEntityPersistenceService.byId(id));
+  }
+
+  @Operation(summary = "根据id集合查询")
+  @GetMapping("/byIds")
+  public ResultResponse<List<PostEntityResponse>> byIds(
+      List<Long> ids
+  ) {
+    return ResultResponse.ok(postEntityPersistenceService.byIds(ids));
+  }
+
+
+
   @Operation(summary = "岗位列表")
   @GetMapping("/list")
   public ResultResponse<List<PostEntityResponse>> list(
@@ -51,6 +69,7 @@ public class PostEntityController {
   ) {
     return ResultResponse.ok(postEntityPersistenceService.list(request));
   }
+
 
   @Operation(summary = "岗位分页")
   @GetMapping("/page")
@@ -79,5 +98,6 @@ public class PostEntityController {
     postEntityPersistenceService.deletes(ids);
     return ResultResponse.ok("删除成功");
   }
+
 
 }

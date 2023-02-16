@@ -1,5 +1,8 @@
 package ${pkg};
 
+<#if pidField??>
+import cn.hutool.core.lang.tree.Tree;
+</#if>
 import ${pkg}.${entityName}PersistenceService;
 import ${pkg}.${entityName}QueryRequest;
 import ${pkg}.${entityName}Repository;
@@ -44,6 +47,33 @@ public class ${entityName}Controller {
     return ResultResponse.ok(${entityName?uncap_first}PersistenceService.update(request));
   }
 
+  @Operation(summary = "根据id查询")
+  @GetMapping("/byId")
+  public ResultResponse<${entityName}Response> byId(
+      Long id
+  ) {
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.byId(id));
+  }
+
+  @Operation(summary = "根据id集合查询")
+  @GetMapping("/byIds")
+  public ResultResponse<List<${entityName}Response>> byIds(
+      List<Long> ids
+  ) {
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.byIds(ids));
+  }
+
+
+<#if pidField??>
+  @Operation(summary = "根据id集合查询")
+  @GetMapping("/byIds/tree")
+  public ResultResponse<List<Tree<Object>>> byIdsTree(
+      List<Long> ids
+  ) {
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.byIdsTree(ids));
+  }
+</#if>
+
   @Operation(summary = "${tableDesc}列表")
   @GetMapping("/list")
   public ResultResponse<List<${entityName}Response>> list(
@@ -51,6 +81,16 @@ public class ${entityName}Controller {
   ) {
     return ResultResponse.ok(${entityName?uncap_first}PersistenceService.list(request));
   }
+
+<#if pidField??>
+  @Operation(summary = "${tableDesc}列表(树结构)")
+  @GetMapping("/list/tree")
+  public ResultResponse<List<Tree<Object>>> listTree(
+      @RequestBody ${entityName}QueryRequest request
+  ) {
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.listTree(request));
+  }
+</#if>
 
   @Operation(summary = "${tableDesc}分页")
   @GetMapping("/page")
@@ -88,12 +128,37 @@ public class ${entityName}Controller {
     return ResultResponse.ok(${entityName?uncap_first}PersistenceService.findBy${fk.fkName?cap_first}Id(${fk.fieldName}));
   }
 
+<#if pidField??>
+  @Operation(summary = "根据${fk.fieldDesc}查询${tableDesc}(树结构)")
+  @GetMapping("/findBy${fk.fkName?cap_first}Id/tree")
+  public  ResultResponse<List<Tree<Object>>> findBy${fk.fkName?cap_first}IdTree(${fk.fieldType} ${fk.fieldName}){
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.findBy${fk.fkName?cap_first}IdTree(${fk.fieldName}));
+  }
+</#if>
   @Operation(summary = "根据${fk.fieldDesc}查询${tableDesc}集合")
   @GetMapping("/findBy${fk.fkName?cap_first}Ids")
   public ResultResponse<List<${entityName}Response>> findBy${fk.fkName?cap_first}Ids(List<${fk.fieldType}> ${fk.fieldName}s){
     return ResultResponse.ok(${entityName?uncap_first}PersistenceService.findBy${fk.fkName?cap_first}Ids(${fk.fieldName}s));
   }
+<#if pidField??>
+  @Operation(summary = "根据${fk.fieldDesc}查询${tableDesc}集合(树结构)")
+  @GetMapping("/findBy${fk.fkName?cap_first}Ids/tree")
+  public ResultResponse<List<Tree<Object>>> findBy${fk.fkName?cap_first}IdsTree(List<${fk.fieldType}> ${fk.fieldName}s){
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.findBy${fk.fkName?cap_first}IdsTree(${fk.fieldName}s));
+  }
+</#if>
 
 </#list>
+</#if>
+
+<#if pidField??>
+
+  @Operation(summary = "全表树(慎重使用)")
+  @GetMapping("/tree")
+  public ResultResponse<List<Tree<Object>>> tree(){
+    return ResultResponse.ok(${entityName?uncap_first}PersistenceService.tree());
+  }
+
+
 </#if>
 }

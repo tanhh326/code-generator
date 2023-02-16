@@ -260,7 +260,7 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
   }
   
   @Override
-  public List<Tree<Object>> findByCompanyIdsTree(Long companyIds){
+  public List<Tree<Object>> findByCompanyIdsTree(List<Long> companyIds){
     List<DeptEntity> all = this.deptEntityRepository.findAll(
     new Specification<DeptEntity>() {
       @Override

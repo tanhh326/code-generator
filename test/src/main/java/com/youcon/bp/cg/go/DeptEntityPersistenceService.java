@@ -79,7 +79,7 @@ public interface DeptEntityPersistenceService  {
     /**
     * 根据单位id查询部门树
     **/
-    List<Tree<Object>> findByCompanyIdsTree(Long companyIds);
+    List<Tree<Object>> findByCompanyIdsTree(List<Long> companyIds);
 
     /**
      * 查询树

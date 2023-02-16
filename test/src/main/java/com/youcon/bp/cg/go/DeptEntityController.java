@@ -1,5 +1,6 @@
 package com.youcon.bp.cg.go;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.youcon.bp.cg.go.DeptEntityPersistenceService;
 import com.youcon.bp.cg.go.DeptEntityQueryRequest;
 import com.youcon.bp.cg.go.DeptEntityRepository;
@@ -44,12 +45,45 @@ public class DeptEntityController {
     return ResultResponse.ok(deptEntityPersistenceService.update(request));
   }
 
+  @Operation(summary = "根据id查询")
+  @GetMapping("/byId")
+  public ResultResponse<DeptEntityResponse> byId(
+      Long id
+  ) {
+    return ResultResponse.ok(deptEntityPersistenceService.byId(id));
+  }
+
+  @Operation(summary = "根据id集合查询")
+  @GetMapping("/byIds")
+  public ResultResponse<List<DeptEntityResponse>> byIds(
+      List<Long> ids
+  ) {
+    return ResultResponse.ok(deptEntityPersistenceService.byIds(ids));
+  }
+
+
+  @Operation(summary = "根据id集合查询")
+  @GetMapping("/byIds/tree")
+  public ResultResponse<List<Tree<Object>>> byIdsTree(
+      List<Long> ids
+  ) {
+    return ResultResponse.ok(deptEntityPersistenceService.byIdsTree(ids));
+  }
+
   @Operation(summary = "部门列表")
   @GetMapping("/list")
   public ResultResponse<List<DeptEntityResponse>> list(
       @RequestBody DeptEntityQueryRequest request
   ) {
     return ResultResponse.ok(deptEntityPersistenceService.list(request));
+  }
+
+  @Operation(summary = "部门列表(树结构)")
+  @GetMapping("/list/tree")
+  public ResultResponse<List<Tree<Object>>> listTree(
+      @RequestBody DeptEntityQueryRequest request
+  ) {
+    return ResultResponse.ok(deptEntityPersistenceService.listTree(request));
   }
 
   @Operation(summary = "部门分页")
@@ -86,10 +120,29 @@ public class DeptEntityController {
     return ResultResponse.ok(deptEntityPersistenceService.findByCompanyId(companyId));
   }
 
+  @Operation(summary = "根据单位id查询部门(树结构)")
+  @GetMapping("/findByCompanyId/tree")
+  public  ResultResponse<List<Tree<Object>>> findByCompanyIdTree(Long companyId){
+    return ResultResponse.ok(deptEntityPersistenceService.findByCompanyIdTree(companyId));
+  }
   @Operation(summary = "根据单位id查询部门集合")
   @GetMapping("/findByCompanyIds")
   public ResultResponse<List<DeptEntityResponse>> findByCompanyIds(List<Long> companyIds){
     return ResultResponse.ok(deptEntityPersistenceService.findByCompanyIds(companyIds));
   }
+  @Operation(summary = "根据单位id查询部门集合(树结构)")
+  @GetMapping("/findByCompanyIds/tree")
+  public ResultResponse<List<Tree<Object>>> findByCompanyIdsTree(List<Long> companyIds){
+    return ResultResponse.ok(deptEntityPersistenceService.findByCompanyIdsTree(companyIds));
+  }
+
+
+
+  @Operation(summary = "全表树(慎重使用)")
+  @GetMapping("/tree")
+  public ResultResponse<List<Tree<Object>>> tree(){
+    return ResultResponse.ok(deptEntityPersistenceService.tree());
+  }
+
 
 }

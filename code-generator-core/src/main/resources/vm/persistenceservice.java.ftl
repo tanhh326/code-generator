@@ -88,7 +88,7 @@ public interface ${entityName}PersistenceService  {
     /**
     * 根据${fk.fieldDesc}查询${tableDesc}树
     **/
-    List<Tree<Object>> findBy${fk.fkName?cap_first}IdsTree(${fk.fieldType} ${fk.fieldName}s);
+    List<Tree<Object>> findBy${fk.fkName?cap_first}IdsTree(List<${fk.fieldType}> ${fk.fieldName}s);
 </#if>
 </#list>
 </#if>

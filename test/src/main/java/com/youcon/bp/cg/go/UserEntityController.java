@@ -44,6 +44,24 @@ public class UserEntityController {
     return ResultResponse.ok(userEntityPersistenceService.update(request));
   }
 
+  @Operation(summary = "根据id查询")
+  @GetMapping("/byId")
+  public ResultResponse<UserEntityResponse> byId(
+      Long id
+  ) {
+    return ResultResponse.ok(userEntityPersistenceService.byId(id));
+  }
+
+  @Operation(summary = "根据id集合查询")
+  @GetMapping("/byIds")
+  public ResultResponse<List<UserEntityResponse>> byIds(
+      List<Long> ids
+  ) {
+    return ResultResponse.ok(userEntityPersistenceService.byIds(ids));
+  }
+
+
+
   @Operation(summary = "用户列表")
   @GetMapping("/list")
   public ResultResponse<List<UserEntityResponse>> list(
@@ -51,6 +69,7 @@ public class UserEntityController {
   ) {
     return ResultResponse.ok(userEntityPersistenceService.list(request));
   }
+
 
   @Operation(summary = "用户分页")
   @GetMapping("/page")
@@ -79,5 +98,6 @@ public class UserEntityController {
     userEntityPersistenceService.deletes(ids);
     return ResultResponse.ok("删除成功");
   }
+
 
 }

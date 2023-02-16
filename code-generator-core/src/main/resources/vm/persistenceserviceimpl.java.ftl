@@ -309,7 +309,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
   <#if pidField??>
   
   @Override
-  public List<Tree<Object>> findBy${fk.fkName?cap_first}IdsTree(${fk.fieldType} ${fk.fieldName}s){
+  public List<Tree<Object>> findBy${fk.fkName?cap_first}IdsTree(List<${fk.fieldType}> ${fk.fieldName}s){
     List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
     new Specification<${entityName}>() {
       @Override

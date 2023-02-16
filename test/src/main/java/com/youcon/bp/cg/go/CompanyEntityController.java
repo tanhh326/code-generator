@@ -44,6 +44,24 @@ public class CompanyEntityController {
     return ResultResponse.ok(companyEntityPersistenceService.update(request));
   }
 
+  @Operation(summary = "根据id查询")
+  @GetMapping("/byId")
+  public ResultResponse<CompanyEntityResponse> byId(
+      Long id
+  ) {
+    return ResultResponse.ok(companyEntityPersistenceService.byId(id));
+  }
+
+  @Operation(summary = "根据id集合查询")
+  @GetMapping("/byIds")
+  public ResultResponse<List<CompanyEntityResponse>> byIds(
+      List<Long> ids
+  ) {
+    return ResultResponse.ok(companyEntityPersistenceService.byIds(ids));
+  }
+
+
+
   @Operation(summary = "单位列表")
   @GetMapping("/list")
   public ResultResponse<List<CompanyEntityResponse>> list(
@@ -51,6 +69,7 @@ public class CompanyEntityController {
   ) {
     return ResultResponse.ok(companyEntityPersistenceService.list(request));
   }
+
 
   @Operation(summary = "单位分页")
   @GetMapping("/page")
@@ -79,5 +98,6 @@ public class CompanyEntityController {
     companyEntityPersistenceService.deletes(ids);
     return ResultResponse.ok("删除成功");
   }
+
 
 }
