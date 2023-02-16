@@ -40,6 +40,11 @@ public class TableInfo {
      * 是否需要前端列表显示
      */
     private boolean tableShow;
+
+    /***
+     * 是否可以编辑
+     */
+    private boolean canEdit;
   }
 
 
