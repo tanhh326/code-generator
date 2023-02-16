@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,42 +20,47 @@ public class CoreSAm {
 
   public static final String BASE = "src.main.java";
   public static final String ext = ".java";
-  static String templatePath;
+  static String javaTemplatePath;
+  static String vueTemplatePath;
 
   static {
     ClassLoader classLoader = CoreSAm.class.getClassLoader();
     URL vm = classLoader.getResource("vm");
-    templatePath = vm.getFile();
+    javaTemplatePath = vm.getFile();
+    URL vmVue = classLoader.getResource("vmvue");
+    vueTemplatePath = vmVue.getFile();
   }
 
+  public final String vueExportPath;
   private final String rootPath;
   private final String packageName;
   private final String module;
   private final String commonPackage;
 
-  public CoreSAm(String rootPath, String packageName, String module, String commonPackage) {
+  public CoreSAm(String rootPath, String packageName, String module, String commonPackage,
+      String vueExportPath) {
     this.rootPath = rootPath;
     this.packageName = packageName;
     this.module = module;
     this.commonPackage = commonPackage;
+    this.vueExportPath = vueExportPath;
   }
 
   public static void main(String[] args) throws IOException, TemplateException {
 //    System.out.println(packageToPath("com.youkong.c"));
 
     String rootPath = "/Users/zhangsan/git_repo/sample/basic-project/code-generator/src/main/java/com/youcon/bp/cg";
-
+    String vueExportPath = "/Users/zhangsan/git_repo/code-generator/hello-arco-pro/src/views/generator";
     String packageName = "com.github.huifer";
     String module = "user";
     String commonPackage = "com.youcon.bp.cg";
 
     TableInfo tableInfo = UserInfo();
     CoreSAm sAm = new CoreSAm(
-        rootPath, packageName, module, commonPackage
+        rootPath, packageName, module, commonPackage, vueExportPath
     );
-    sAm.singlet(
-        tableInfo
-    );
+//    sAm.singlet(tableInfo);
+    sAm.generatorVue(tableInfo);
 
   }
 
@@ -112,6 +118,33 @@ public class CoreSAm {
     step3(javaProperties, "controller.java.ftl", false, "Controller");
   }
 
+
+  public void generatorVue(TableInfo tableInfo) throws TemplateException, IOException {
+    step1();
+    JavaProperties javaProperties = step2(tableInfo);
+    stepVue(javaProperties, "api.ts.ftl", "api.ts");
+  }
+  public String stepVue(JavaProperties javaProperties, String templateName, String eg)
+      throws IOException, TemplateException {
+
+    Configuration configuration = new Configuration(
+        Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+    configuration.setDefaultEncoding("UTF-8");
+    // 指定模板的路径
+    configuration.setDirectoryForTemplateLoading(new File(vueTemplatePath));
+    // 根据模板名称获取路径下的模板
+    Template template = configuration.getTemplate(templateName);
+
+    StringWriter sw = new StringWriter();
+    template.process(javaProperties, sw);
+    String s = sw.toString();
+    String out = vueExportPath.concat(String.valueOf(File.separatorChar)).concat(eg);
+    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(out));
+
+    template.process(javaProperties, outputStreamWriter);
+    return s;
+  }
+
   public JavaProperties step2(TableInfo tableInfo
   ) {
 
@@ -122,7 +155,7 @@ public class CoreSAm {
         commonPackage, commonPackage);
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       po.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
-          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(),fieldInfo.isPid());
+          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(), fieldInfo.isPid());
     }
     return po;
   }
@@ -134,7 +167,7 @@ public class CoreSAm {
 
     configuration.setDefaultEncoding("UTF-8");
     // 指定模板的路径
-    configuration.setDirectoryForTemplateLoading(new File(templatePath));
+    configuration.setDirectoryForTemplateLoading(new File(javaTemplatePath));
     // 根据模板名称获取路径下的模板
     Template template = configuration.getTemplate(templateName);
     String pg = javaProperties.getPkg() + "." + module;
@@ -146,13 +179,13 @@ public class CoreSAm {
     String out = rootPath.concat(Stream.of(pg.split("\\."))
         .collect(Collectors.joining("/", "/", "/" + javaName)));
 
-//    StringWriter sw = new StringWriter();
-//    template.process(javaProperties, sw);
+    StringWriter sw = new StringWriter();
+    template.process(javaProperties, sw);
 
     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(out));
 
     template.process(javaProperties, outputStreamWriter);
-    return "";
+    return sw.toString();
 
   }
 

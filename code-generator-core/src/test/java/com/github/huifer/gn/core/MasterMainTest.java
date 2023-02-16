@@ -171,6 +171,12 @@ class MasterMainTest {
         "PersistenceServiceImpl", true, userEntity);
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "controller.java.ftl", "Controller",
         false, userEntity);
+
+
+
+
+    // 生产vue相关代码
+
   }
 
   private static void extractedLink(String packageName, LinkTableInfo link)

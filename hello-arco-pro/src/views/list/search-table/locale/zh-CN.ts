@@ -1,6 +1,7 @@
 export default {
   'menu.list.searchTable': '查询表格',
   'menu.list.monoTable': '普通表格',
+  'menu.list.cesTable': '测试表格',
   'searchTable.form.number': '集合编号',
   'searchTable.form.number.placeholder': '请输入集合编号',
   'searchTable.form.name': '集合名称',

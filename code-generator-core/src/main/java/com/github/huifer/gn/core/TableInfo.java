@@ -21,11 +21,25 @@ public class TableInfo {
     private FieldType type;
     private boolean nul;
 
+    /**
+     * 是否允许范围查询
+     */
     private boolean range;
 
+    /**
+     * 是否是外键
+     */
     private boolean fk;
 
+    /**
+     * 是否是pid
+     */
     private boolean pid;
+
+    /**
+     * 是否需要前端列表显示
+     */
+    private boolean tableShow;
   }
 
 

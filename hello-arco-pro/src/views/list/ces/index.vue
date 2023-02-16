@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.list', 'menu.list.searchTable']" />
-    <a-card class="general-card" title="查询表格">
+    <a-card class="general-card" :title="$t('menu.list.searchTable')">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -14,30 +14,66 @@
               <a-col :span="8">
                 <a-form-item
                   field="number"
-                  label="集合编号"
+                  :label="$t('searchTable.form.number')"
                 >
                   <a-input
                     v-model="formModel.number"
-                    placeholder="请输入集合编号"
+                    :placeholder="$t('searchTable.form.number.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" label="集合名称">
+                <a-form-item field="name" :label="$t('searchTable.form.name')">
                   <a-input
                     v-model="formModel.name"
-                    placeholder="请输入集合名称"
+                    :placeholder="$t('searchTable.form.name.placeholder')"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="contentType"
+                  :label="$t('searchTable.form.contentType')"
+                >
+                  <a-select
+                    v-model="formModel.contentType"
+                    :options="contentTypeOptions"
+                    :placeholder="$t('searchTable.form.selectDefault')"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="filterType"
+                  :label="$t('searchTable.form.filterType')"
+                >
+                  <a-select
+                    v-model="formModel.filterType"
+                    :options="filterTypeOptions"
+                    :placeholder="$t('searchTable.form.selectDefault')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="createdTime"
-                  label="创建时间"
+                  :label="$t('searchTable.form.createdTime')"
                 >
                   <a-range-picker
                     v-model="formModel.createdTime"
                     style="width: 100%"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="status"
+                  :label="$t('searchTable.form.status')"
+                >
+                  <a-select
+                    v-model="formModel.status"
+                    :options="statusOptions"
+                    :placeholder="$t('searchTable.form.selectDefault')"
                   />
                 </a-form-item>
               </a-col>
@@ -51,13 +87,13 @@
               <template #icon>
                 <icon-search />
               </template>
-              查询
+              {{ $t('searchTable.form.search') }}
             </a-button>
             <a-button @click="reset">
               <template #icon>
                 <icon-refresh />
               </template>
-              重置
+              {{ $t('searchTable.form.reset') }}
             </a-button>
           </a-space>
         </a-col>
@@ -100,7 +136,6 @@
           </a-button>
         </template>
       </a-table>
-      <a-pagination class="block" :total="50" show-total show-jumper show-page-size/>
     </a-card>
   </div>
 </template>
@@ -117,7 +152,6 @@
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
 
-  // 外部
   const generateFormModel = () => {
     return {
       number: '',
@@ -168,10 +202,10 @@
   ) => {
     setLoading(true);
     try {
-      // const { data } = await queryPolicyList(params);
-      renderData.value = [];
+      const { data } = await queryPolicyList(params);
+      renderData.value = data.list;
       pagination.current = params.current;
-      pagination.total = 100;
+      pagination.total = data.total;
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
