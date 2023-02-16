@@ -1,24 +1,26 @@
 import axios from 'axios';
+import {PageAndSortRequest} from "@/views/generator/commpn";
+import qs from 'query-string';
 
 
 // 添加${tableDesc}
-export function ${entityName}Create() {
-  return axios.post('/${tableName}/create');
+export function ${entityName}Create(request:${entityName}CreateRequest) {
+  return axios.post('/${tableName}/create',request);
 }
 
 // 修改${tableDesc}
-export function ${entityName}Update() {
-  return axios.post('/${tableName}/update');
+export function ${entityName}Update(request:${entityName}UpdateRequest) {
+  return axios.post('/${tableName}/update',request);
 }
 
 // 根据id查询
 export function ${entityName}ById(id:string) {
-  return axios.get('/${tableName}/byId');
+  return axios.get('/${tableName}/byId',{params:{id}});
 }
 
 // 根据id集合查询
-export function ${entityName}ByIds(id:string) {
-  return axios.get('/${tableName}/byIds');
+export function ${entityName}ByIds(ids:string[]) {
+  return axios.get('/${tableName}/byIds',{params:{ids}});
 }
 
 <#if pidField??>
@@ -41,17 +43,17 @@ export function ${entityName}ListTree(request:${entityName}QueryRequest){
 </#if>
 
 // ${tableDesc}分页
-export function ${entityName}Page(request:${entityName}QueryRequest) {
+export function ${entityName}Page(request:${entityName}QueryRequest,page:PageAndSortRequest) {
   return axios.get('/${tableName}/page');
 }
 
 // 单个删除${tableDesc}
 export function ${entityName}Delete(id:string) {
-  return axios.get('/${tableName}/delete');
+  return axios.post('/${tableName}/delete');
 }
 // 多个删除${tableDesc}
 export function ${entityName}Deletes(id:string[]) {
-  return axios.get('/${tableName}/deletes');
+  return axios.post('/${tableName}/deletes');
 }
 
 
@@ -103,9 +105,18 @@ export interface  ${entityName}Response{
 
 // ${tableDesc}创建参数
 export interface ${entityName}CreateRequest{
+id:  string;
 <#list  fields as field>
   // ${field.fieldDesc}
   ${field.fieldName}:string;
+</#list>
+}
+
+// ${tableDesc}修改参数
+export interface ${entityName}UpdateRequest{
+<#list  fields as field>
+  // ${field.fieldDesc}
+    ${field.fieldName}:string;
 </#list>
 }
 
