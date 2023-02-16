@@ -91,5 +91,22 @@ public interface DeptEntityPersistenceService  {
      */
     List<Tree<Object>> tree(List<DeptEntity> all);
 
+    /**
+     * 只查询下级（一级）
+     */
+    List<DeptEntityResponse> subId(Long pid);
+
+    /**
+     * 只查询下级（一级）
+     */
+    List<DeptEntityResponse> subIds(List<Long> pids);
+    /**
+      * 查询下级（递归）
+      */
+    List<DeptEntityResponse> subIdAll(Long pid);
+    /**
+      * 查询下级（递归）
+      */
+    List<DeptEntityResponse> subIdsAll(List<Long> pids);
 
 }

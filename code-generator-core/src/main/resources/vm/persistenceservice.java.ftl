@@ -104,6 +104,23 @@ public interface ${entityName}PersistenceService  {
      */
     List<Tree<Object>> tree(List<${entityName}> all);
 
+    /**
+     * 只查询下级（一级）
+     */
+    List<${entityName}Response> subId(${pidField.fieldType} ${pidField.fieldName});
+
+    /**
+     * 只查询下级（一级）
+     */
+    List<${entityName}Response> subIds(List<${pidField.fieldType}> ${pidField.fieldName}s);
+    /**
+      * 查询下级（递归）
+      */
+    List<${entityName}Response> subIdAll(${pidField.fieldType} ${pidField.fieldName});
+    /**
+      * 查询下级（递归）
+      */
+    List<${entityName}Response> subIdsAll(List<${pidField.fieldType}> ${pidField.fieldName}s);
 </#if>
 
 }

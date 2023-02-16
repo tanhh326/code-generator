@@ -19,6 +19,7 @@ import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.lang.tree.parser.NodeParser;
 </#if>
+import java.util.Collections;
 import java.util.ArrayList;
 import ${commomPKG}.CreateValidate;
 import ${commomPKG}.PageAndSortRequest;
@@ -333,6 +334,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
   /**
   * 查询树
   */
+  @Override
   public List<Tree<Object>> tree(){
     List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll();
     return tree(all);
@@ -341,6 +343,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
   /**
   * 构造树
   */
+  @Override
   public List<Tree<Object>> tree(List<${entityName}> all){
     TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
     treeNodeConfig.setIdKey("id");
@@ -359,6 +362,111 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
     return build;
   }
 
+  @Override
+  public List<${entityName}Response> subId(${pidField.fieldType} ${pidField.fieldName}){
+    if (${pidField.fieldName} ==null){
+      return Collections.emptyList(); 
+    }
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(new Specification<DeptEntity>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.equal(root.get("${pidField.fieldName}"), ${pidField.fieldName}));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+      }
+    });
+    return all.stream().map(s -> {
+      ${entityName}Response target = new ${entityName}Response();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+  public List<${entityName}Response> subIds(List<${pidField.fieldType}> ${pidField.fieldName}s){
+    if (CollectionUtils.isEmpty(${pidField.fieldName}s)) {
+      return Collections.emptyList(); 
+    }
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(new Specification<DeptEntity>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.in(root.get("${pidField.fieldName}")).value(${pidField.fieldName}s));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+      }
+    });
+    return all.stream().map(s -> {
+      ${entityName}Response target = new ${entityName}Response();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+
+  @Override
+  public List<${entityName}Response> subIdAll(${pidField.fieldType} ${pidField.fieldName}){
+    if (${pidField.fieldName} == null){
+      return Collections.emptyList();
+    }
+    List<${pidField.fieldType}> ids = new ArrayList<>();
+    ids.add(${pidField.fieldName});
+    List<${entityName}> child = child(ids);
+
+    return child.stream().map(s -> {
+      ${entityName}Response target = new ${entityName}Response();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<${entityName}Response> subIdsAll(List<${pidField.fieldType}> ${pidField.fieldName}s){
+    if (CollectionUtils.isEmpty(${pidField.fieldName}s)) {
+      return Collections.emptyList(); 
+    }
+    List<${entityName}> child = child(${pidField.fieldName}s);
+    return child.stream().map(s -> {
+      ${entityName}Response target = new ${entityName}Response();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+
+  public List<${entityName}> child(List<${pidField.fieldType}> ${pidField.fieldName}s){
+    List<${entityName}> result = new ArrayList<>();
+    selectChild(result, ${pidField.fieldName}s);
+    return result;
+  }
+
+  public void selectChild(List<${entityName}> result, List<${pidField.fieldType}> ${pidField.fieldName}s) {
+
+    List<${pidField.fieldType}> temp = new ArrayList<>();
+    List<${entityName}> sa = new ArrayList<>();
+    for (${pidField.fieldType} ${pidField.fieldName} : ${pidField.fieldName}s) {
+      List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(new Specification<DeptEntity>() {
+        @Override
+        public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+            CriteriaBuilder criteriaBuilder) {
+          List<Predicate> predicatesList = new ArrayList<>();
+          predicatesList.add(criteriaBuilder.in(root.get("${pidField.fieldName}")).value(${pidField.fieldName}));
+          Predicate[] predicates = new Predicate[predicatesList.size()];
+          return criteriaBuilder.and(predicatesList.toArray(predicates));
+        }
+      });
+      sa = all;
+      for (${entityName} s : sa) {
+        temp.add(s.getId());
+        result.add(s);
+      }
+    }
+    if (temp.size() != 0 && temp != null) {
+      selectChild(result, temp);
+    }
+  }
 </#if>
 
   /**

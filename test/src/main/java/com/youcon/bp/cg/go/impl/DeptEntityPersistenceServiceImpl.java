@@ -3,6 +3,7 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.lang.tree.parser.NodeParser;
+import java.util.Collections;
 import java.util.ArrayList;
 import com.youcon.bp.cg.CreateValidate;
 import com.youcon.bp.cg.PageAndSortRequest;
@@ -280,6 +281,7 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
   /**
   * 查询树
   */
+  @Override
   public List<Tree<Object>> tree(){
     List<DeptEntity> all = this.deptEntityRepository.findAll();
     return tree(all);
@@ -288,6 +290,7 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
   /**
   * 构造树
   */
+  @Override
   public List<Tree<Object>> tree(List<DeptEntity> all){
     TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
     treeNodeConfig.setIdKey("id");
@@ -307,6 +310,111 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
     return build;
   }
 
+  @Override
+  public List<DeptEntityResponse> subId(Long pid){
+    if (pid ==null){
+      return Collections.emptyList(); 
+    }
+    List<DeptEntity> all = this.deptEntityRepository.findAll(new Specification<DeptEntity>() {
+      @Override
+      public Predicate toPredicate(Root<DeptEntity> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.equal(root.get("pid"), pid));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+      }
+    });
+    return all.stream().map(s -> {
+      DeptEntityResponse target = new DeptEntityResponse();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+  public List<DeptEntityResponse> subIds(List<Long> pids){
+    if (CollectionUtils.isEmpty(pids)) {
+      return Collections.emptyList(); 
+    }
+    List<DeptEntity> all = this.deptEntityRepository.findAll(new Specification<DeptEntity>() {
+      @Override
+      public Predicate toPredicate(Root<DeptEntity> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.in(root.get("pid")).value(pids));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+      }
+    });
+    return all.stream().map(s -> {
+      DeptEntityResponse target = new DeptEntityResponse();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+
+  @Override
+  public List<DeptEntityResponse> subIdAll(Long pid){
+    if (pid == null){
+      return Collections.emptyList();
+    }
+    List<Long> ids = new ArrayList<>();
+    ids.add(pid);
+    List<DeptEntity> child = child(ids);
+
+    return child.stream().map(s -> {
+      DeptEntityResponse target = new DeptEntityResponse();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<DeptEntityResponse> subIdsAll(List<Long> pids){
+    if (CollectionUtils.isEmpty(pids)) {
+      return Collections.emptyList(); 
+    }
+    List<DeptEntity> child = child(pids);
+    return child.stream().map(s -> {
+      DeptEntityResponse target = new DeptEntityResponse();
+      BeanUtils.copyProperties(s, target);
+      return target;
+    }).collect(Collectors.toList());
+  }
+
+
+  public List<DeptEntity> child(List<Long> pids){
+    List<DeptEntity> result = new ArrayList<>();
+    selectChild(result, pids);
+    return result;
+  }
+
+  public void selectChild(List<DeptEntity> result, List<Long> pids) {
+
+    List<Long> temp = new ArrayList<>();
+    List<DeptEntity> sa = new ArrayList<>();
+    for (Long pid : pids) {
+      List<DeptEntity> all = this.deptEntityRepository.findAll(new Specification<DeptEntity>() {
+        @Override
+        public Predicate toPredicate(Root<DeptEntity> root, CriteriaQuery<?> query,
+            CriteriaBuilder criteriaBuilder) {
+          List<Predicate> predicatesList = new ArrayList<>();
+          predicatesList.add(criteriaBuilder.in(root.get("pid")).value(pid));
+          Predicate[] predicates = new Predicate[predicatesList.size()];
+          return criteriaBuilder.and(predicatesList.toArray(predicates));
+        }
+      });
+      sa = all;
+      for (DeptEntity s : sa) {
+        temp.add(s.getId());
+        result.add(s);
+      }
+    }
+    if (temp.size() != 0 && temp != null) {
+      selectChild(result, temp);
+    }
+  }
 
   /**
    * 创建校验
