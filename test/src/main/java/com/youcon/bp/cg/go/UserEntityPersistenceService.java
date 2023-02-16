@@ -47,6 +47,7 @@ public interface UserEntityPersistenceService  {
      */
     List<UserEntityResponse> list(UserEntityQueryRequest request);
 
+
     /**
      * 分页
      */

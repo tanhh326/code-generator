@@ -93,6 +93,9 @@ public class CompanyEntityPersistenceServiceImpl implements CompanyEntityPersist
     }).collect(Collectors.toList());
   }
 
+
+
+
   @Transactional(rollbackFor = {Exception.class})
   @Override
   public void deletes(List<Long> ids) {
@@ -125,6 +128,7 @@ public class CompanyEntityPersistenceServiceImpl implements CompanyEntityPersist
       return target;
     }).collect(Collectors.toList());
   }
+
 
   @Override
   public PageResponse<CompanyEntityResponse> page(CompanyEntityQueryRequest request,

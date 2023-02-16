@@ -47,6 +47,7 @@ public interface PostEntityPersistenceService  {
      */
     List<PostEntityResponse> list(PostEntityQueryRequest request);
 
+
     /**
      * 分页
      */

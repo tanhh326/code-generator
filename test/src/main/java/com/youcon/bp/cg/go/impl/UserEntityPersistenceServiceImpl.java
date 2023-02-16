@@ -95,6 +95,9 @@ public class UserEntityPersistenceServiceImpl implements UserEntityPersistenceSe
     }).collect(Collectors.toList());
   }
 
+
+
+
   @Transactional(rollbackFor = {Exception.class})
   @Override
   public void deletes(List<Long> ids) {
@@ -130,6 +133,7 @@ public class UserEntityPersistenceServiceImpl implements UserEntityPersistenceSe
       return target;
     }).collect(Collectors.toList());
   }
+
 
   @Override
   public PageResponse<UserEntityResponse> page(UserEntityQueryRequest request,

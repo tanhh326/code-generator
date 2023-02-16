@@ -113,6 +113,16 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
     }).collect(Collectors.toList());
   }
 
+<#if pidField??>
+  @Override
+  public List<Tree<Object>> byIdsTree(List<Long> ids){
+    List<${entityName}> allById = ${entityName?uncap_first}Repository.findAllById(ids);
+    return tree(allById);
+  }
+</#if>
+
+
+
   @Transactional(rollbackFor = {Exception.class})
   @Override
   public void deletes(List<Long> ids) {
@@ -153,6 +163,34 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
       return target;
     }).collect(Collectors.toList());
   }
+
+<#if pidField??>
+  @Override
+  public List<Tree<Object>> listTree(${entityName}QueryRequest request){
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(new Specification<${entityName}>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+          List<Predicate> predicatesList = new ArrayList<>();
+      <#list fields as field>
+        <#if field.fieldType  == "String">
+          predicatesList.add(criteriaBuilder.like(root.get("${field.fieldName}"), "%"+request.${dashedToCamel("get_${field.fieldName}")}()+"%"));
+        <#elseif field.range>
+          List<${field.fieldType}> ${field.fieldName}s = request.${dashedToCamel("get_${field.fieldName}")}s();
+          if (!CollectionUtils.isEmpty(${field.fieldName}s)) {
+            predicatesList.add(criteriaBuilder.between(root.get("${field.fieldName}"), ${field.fieldName}s.get(0), ${field.fieldName}s.get(1)));
+          }
+        <#else >
+          predicatesList.add(criteriaBuilder.equal(root.get("${field.fieldName}"), request.${dashedToCamel("get_${field.fieldName}")}()));
+        </#if>
+      </#list>
+          Predicate[] predicates = new Predicate[predicatesList.size()];
+          return criteriaBuilder.and(predicatesList.toArray(predicates));
+      }
+    });
+    return tree(all);
+  }
+</#if>
 
   @Override
   public PageResponse<${entityName}Response> page(${entityName}QueryRequest request,
@@ -205,7 +243,6 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
 
 <#if hasFk>
 <#list  forinKeyList as fk>
-    // ${fk.fkName}
   @Override
   public List<${entityName}Response> findBy${fk.fkName?cap_first}Id(${fk.fieldType} ${fk.fieldName}){
     List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
@@ -228,6 +265,26 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
     }).collect(Collectors.toList());
 
   }
+
+<#if pidField??>
+  @Override
+  public List<Tree<Object>> findBy${fk.fkName?cap_first}IdTree(${fk.fieldType} ${fk.fieldName}){
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
+    new Specification<${entityName}>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.equal(root.get("${fk.fieldName}"), ${fk.fieldName}));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+      }
+    });
+    return tree(all);
+  }
+</#if>
+
   @Override
   public List<${entityName}Response> findBy${fk.fkName?cap_first}Ids(List<${fk.fieldType}> ${fk.fieldName}s){
     List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
@@ -249,6 +306,25 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
       return target;
     }).collect(Collectors.toList());
   }
+  <#if pidField??>
+  
+  @Override
+  public List<Tree<Object>> findBy${fk.fkName?cap_first}IdsTree(${fk.fieldType} ${fk.fieldName}s){
+    List<${entityName}> all = this.${entityName?uncap_first}Repository.findAll(
+    new Specification<${entityName}>() {
+      @Override
+      public Predicate toPredicate(Root<${entityName}> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.in(root.get("${fk.fieldName}")).value(${fk.fieldName}s));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+      }
+    });
+    return tree(all);
+  }
+</#if>
 
 </#list>
 </#if>

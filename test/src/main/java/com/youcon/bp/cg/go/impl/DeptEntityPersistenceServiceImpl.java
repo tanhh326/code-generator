@@ -97,6 +97,14 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
     }).collect(Collectors.toList());
   }
 
+  @Override
+  public List<Tree<Object>> byIdsTree(List<Long> ids){
+    List<DeptEntity> allById = deptEntityRepository.findAllById(ids);
+    return tree(allById);
+  }
+
+
+
   @Transactional(rollbackFor = {Exception.class})
   @Override
   public void deletes(List<Long> ids) {
@@ -128,6 +136,24 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
       BeanUtils.copyProperties(s, target);
       return target;
     }).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<Tree<Object>> listTree(DeptEntityQueryRequest request){
+    List<DeptEntity> all = this.deptEntityRepository.findAll(new Specification<DeptEntity>() {
+      @Override
+      public Predicate toPredicate(Root<DeptEntity> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+          List<Predicate> predicatesList = new ArrayList<>();
+          predicatesList.add(criteriaBuilder.like(root.get("name"), "%"+request.getName()+"%"));
+          predicatesList.add(criteriaBuilder.equal(root.get("companyId"), request.getCompanyId()));
+          predicatesList.add(criteriaBuilder.equal(root.get("pid"), request.getPid()));
+          predicatesList.add(criteriaBuilder.equal(root.get("leader"), request.getLeader()));
+          Predicate[] predicates = new Predicate[predicatesList.size()];
+          return criteriaBuilder.and(predicatesList.toArray(predicates));
+      }
+    });
+    return tree(all);
   }
 
   @Override
@@ -171,7 +197,6 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
         all.getPageable().getPageSize(), collect);
   }
 
-    // company
   @Override
   public List<DeptEntityResponse> findByCompanyId(Long companyId){
     List<DeptEntity> all = this.deptEntityRepository.findAll(
@@ -194,6 +219,24 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
     }).collect(Collectors.toList());
 
   }
+
+  @Override
+  public List<Tree<Object>> findByCompanyIdTree(Long companyId){
+    List<DeptEntity> all = this.deptEntityRepository.findAll(
+    new Specification<DeptEntity>() {
+      @Override
+      public Predicate toPredicate(Root<DeptEntity> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.equal(root.get("companyId"), companyId));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+      }
+    });
+    return tree(all);
+  }
+
   @Override
   public List<DeptEntityResponse> findByCompanyIds(List<Long> companyIds){
     List<DeptEntity> all = this.deptEntityRepository.findAll(
@@ -214,6 +257,23 @@ public class DeptEntityPersistenceServiceImpl implements DeptEntityPersistenceSe
       BeanUtils.copyProperties(s, target);
       return target;
     }).collect(Collectors.toList());
+  }
+  
+  @Override
+  public List<Tree<Object>> findByCompanyIdsTree(Long companyIds){
+    List<DeptEntity> all = this.deptEntityRepository.findAll(
+    new Specification<DeptEntity>() {
+      @Override
+      public Predicate toPredicate(Root<DeptEntity> root, CriteriaQuery<?> query,
+          CriteriaBuilder criteriaBuilder) {
+        List<Predicate> predicatesList = new ArrayList<>();
+        predicatesList.add(criteriaBuilder.in(root.get("companyId")).value(companyIds));
+        Predicate[] predicates = new Predicate[predicatesList.size()];
+        return criteriaBuilder.and(predicatesList.toArray(predicates));
+
+      }
+    });
+    return tree(all);
   }
 
 

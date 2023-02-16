@@ -47,6 +47,7 @@ public interface CompanyEntityPersistenceService  {
      */
     List<CompanyEntityResponse> list(CompanyEntityQueryRequest request);
 
+
     /**
      * 分页
      */

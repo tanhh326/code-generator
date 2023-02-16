@@ -36,6 +36,10 @@ public interface DeptEntityPersistenceService  {
     * 根据id集合查询
     */
     List<DeptEntityResponse> byIds(List<Long> ids);
+    /**
+    * 根据id集合查询树
+    */
+    List<Tree<Object>> byIdsTree(List<Long> ids);
 
     /**
     * 批量删除
@@ -46,6 +50,11 @@ public interface DeptEntityPersistenceService  {
      * 返回列表
      */
     List<DeptEntityResponse> list(DeptEntityQueryRequest request);
+
+    /**
+    * 根据查询条件返回树
+    */
+    List<Tree<Object>> listTree(DeptEntityQueryRequest request);
 
     /**
      * 分页
@@ -59,11 +68,18 @@ public interface DeptEntityPersistenceService  {
      * 根据单位id查询部门集合
      **/
     List<DeptEntityResponse> findByCompanyId(Long companyId);
+  /**
+  * 根据单位id查询部门树
+  **/
+  List<Tree<Object>> findByCompanyIdTree(Long companyId);
     /**
     * 根据单位id查询部门集合
     **/
     List<DeptEntityResponse> findByCompanyIds(List<Long> companyIds);
-
+    /**
+    * 根据单位id查询部门树
+    **/
+    List<Tree<Object>> findByCompanyIdsTree(Long companyIds);
 
     /**
      * 查询树

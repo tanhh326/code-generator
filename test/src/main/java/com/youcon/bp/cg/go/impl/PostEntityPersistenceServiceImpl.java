@@ -93,6 +93,9 @@ public class PostEntityPersistenceServiceImpl implements PostEntityPersistenceSe
     }).collect(Collectors.toList());
   }
 
+
+
+
   @Transactional(rollbackFor = {Exception.class})
   @Override
   public void deletes(List<Long> ids) {
@@ -122,6 +125,7 @@ public class PostEntityPersistenceServiceImpl implements PostEntityPersistenceSe
       return target;
     }).collect(Collectors.toList());
   }
+
 
   @Override
   public PageResponse<PostEntityResponse> page(PostEntityQueryRequest request,
