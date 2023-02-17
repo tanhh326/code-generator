@@ -1,7 +1,6 @@
 package com.youcon.bp.cg.go.link;
-import com.youcon.bp.cg.go.link.MidUserPostEntity;
-import com.youcon.bp.cg.go.PostEntityResponse;
-import com.youcon.bp.cg.go.UserEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.PostEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.UserEntityResponse;
 import java.util.List;
 
 

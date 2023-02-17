@@ -1,9 +1,9 @@
 package com.youcon.bp.cg.go.link.impl;
 
-import com.youcon.bp.cg.go.PostEntityResponse;
-import com.youcon.bp.cg.go.DeptEntityResponse;
-import com.youcon.bp.cg.go.DeptEntityPersistenceService;
-import com.youcon.bp.cg.go.PostEntityPersistenceService;
+import com.youcon.bp.cg.go.module.servlet.PostEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.DeptEntityResponse;
+import com.youcon.bp.cg.go.persistence.DeptEntityPersistenceService;
+import com.youcon.bp.cg.go.persistence.PostEntityPersistenceService;
 import com.youcon.bp.cg.go.link.MidDeptPostEntity;
 import com.youcon.bp.cg.go.link.MidDeptPostEntityCreateRequest;
 import com.youcon.bp.cg.go.link.MidDeptPostEntityMapper;

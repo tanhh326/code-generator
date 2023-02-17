@@ -1,14 +1,13 @@
 package com.youcon.bp.cg.go;
 
-import com.youcon.bp.cg.go.CompanyEntityPersistenceService;
-import com.youcon.bp.cg.go.CompanyEntityQueryRequest;
-import com.youcon.bp.cg.go.CompanyEntityRepository;
-import com.youcon.bp.cg.go.CompanyEntityResponse;
-import com.youcon.bp.cg.go.CompanyEntityUpdateRequest;
-import com.youcon.bp.cg.go.CompanyEntityCreateRequest;
 import com.youcon.bp.cg.PageAndSortRequest;
 import com.youcon.bp.cg.ResultResponse;
 import com.youcon.bp.cg.PageResponse;
+import com.youcon.bp.cg.go.module.servlet.CompanyEntityCreateRequest;
+import com.youcon.bp.cg.go.module.servlet.CompanyEntityQueryRequest;
+import com.youcon.bp.cg.go.module.servlet.CompanyEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.CompanyEntityUpdateRequest;
+import com.youcon.bp.cg.go.persistence.CompanyEntityPersistenceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;

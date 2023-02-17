@@ -1,14 +1,13 @@
 package com.youcon.bp.cg.go;
 
-import com.youcon.bp.cg.go.UserEntityPersistenceService;
-import com.youcon.bp.cg.go.UserEntityQueryRequest;
-import com.youcon.bp.cg.go.UserEntityRepository;
-import com.youcon.bp.cg.go.UserEntityResponse;
-import com.youcon.bp.cg.go.UserEntityUpdateRequest;
-import com.youcon.bp.cg.go.UserEntityCreateRequest;
 import com.youcon.bp.cg.PageAndSortRequest;
 import com.youcon.bp.cg.ResultResponse;
 import com.youcon.bp.cg.PageResponse;
+import com.youcon.bp.cg.go.module.servlet.UserEntityCreateRequest;
+import com.youcon.bp.cg.go.persistence.UserEntityPersistenceService;
+import com.youcon.bp.cg.go.module.servlet.UserEntityQueryRequest;
+import com.youcon.bp.cg.go.module.servlet.UserEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.UserEntityUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;

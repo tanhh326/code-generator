@@ -1,8 +1,8 @@
 package com.youcon.bp.cg.go.link;
 
 import com.youcon.bp.cg.ResultResponse;
-import com.youcon.bp.cg.go.PostEntityResponse;
-import com.youcon.bp.cg.go.DeptEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.PostEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.DeptEntityResponse;
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

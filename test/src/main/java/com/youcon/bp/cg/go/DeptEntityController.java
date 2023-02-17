@@ -1,15 +1,14 @@
 package com.youcon.bp.cg.go;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.youcon.bp.cg.go.DeptEntityPersistenceService;
-import com.youcon.bp.cg.go.DeptEntityQueryRequest;
-import com.youcon.bp.cg.go.DeptEntityRepository;
-import com.youcon.bp.cg.go.DeptEntityResponse;
-import com.youcon.bp.cg.go.DeptEntityUpdateRequest;
-import com.youcon.bp.cg.go.DeptEntityCreateRequest;
 import com.youcon.bp.cg.PageAndSortRequest;
 import com.youcon.bp.cg.ResultResponse;
 import com.youcon.bp.cg.PageResponse;
+import com.youcon.bp.cg.go.module.servlet.DeptEntityCreateRequest;
+import com.youcon.bp.cg.go.persistence.DeptEntityPersistenceService;
+import com.youcon.bp.cg.go.module.servlet.DeptEntityQueryRequest;
+import com.youcon.bp.cg.go.module.servlet.DeptEntityResponse;
+import com.youcon.bp.cg.go.module.servlet.DeptEntityUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
