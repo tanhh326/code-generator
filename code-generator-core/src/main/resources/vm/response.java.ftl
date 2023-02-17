@@ -4,7 +4,7 @@ package ${pkg};
 import ${impt};
 </#list>
 import java.time.LocalDateTime;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
 @io.swagger.v3.oas.annotations.media.Schema(description = "${tableDesc}响应参数")
 @Getter

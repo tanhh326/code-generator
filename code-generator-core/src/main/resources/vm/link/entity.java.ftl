@@ -15,7 +15,7 @@ package ${pkg};
 import ${impt};
 </#list>
 import java.time.LocalDateTime;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity

@@ -18,10 +18,10 @@ class MasterMainTest {
 
   static String packageName = "com.youcon.bp.cg.go";
   static String commonPackage = "com.youcon.bp.cg";
-//  static String rootPath = "D:\\git_repo\\youcon\\code-generator\\test\\src\\main\\java";
-  static String rootPath = "/Users/zhangsan/git_repo/code-generator/test/src/main/java";
-//  static String templatePath = "D:\\git_repo\\youcon\\code-generator\\code-generator-core\\src\\main\\resources\\vm";
-  static String templatePath = "/Users/zhangsan/git_repo/code-generator/code-generator-core/src/main/resources/vm";
+  static String rootPath = "D:\\git_repo\\youcon\\code-generator\\test\\src\\main\\java";
+//  static String rootPath = "/Users/zhangsan/git_repo/code-generator/test/src/main/java";
+  static String templatePath = "D:\\git_repo\\youcon\\code-generator\\code-generator-core\\src\\main\\resources\\vm";
+//  static String templatePath = "/Users/zhangsan/git_repo/code-generator/code-generator-core/src/main/resources/vm";
 
   public static TableInfo UserInfo() {
     TableInfo tableInfo = new TableInfo();
@@ -163,8 +163,8 @@ class MasterMainTest {
 
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "entity.java.ftl", "", false,
         userEntity);
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "mapper.java.ftl", "Mapper", false,
-        userEntity);
+//    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "mapper.java.ftl", "Mapper", false,
+//        userEntity);
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "repository.java.ftl", "Repository",
         false, userEntity);
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "create.java.ftl", "CreateRequest",
@@ -242,8 +242,8 @@ class MasterMainTest {
 
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/entity.java.ftl", "", false,
         userEntity);
-    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/mapper.java.ftl", "Mapper", false,
-        userEntity);
+//    FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/mapper.java.ftl", "Mapper", false,
+//        userEntity);
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "link/repository.java.ftl",
         "Repository",
         false, userEntity);

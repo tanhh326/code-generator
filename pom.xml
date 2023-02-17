@@ -86,18 +86,11 @@
       <version>31.1-jre</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
-    <dependency>
-      <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-boot-starter</artifactId>
-      <version>3.5.3.1</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
-    <dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>javax.persistence-api</artifactId>
-      <version>2.2</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-core -->
+<!--    <dependency>-->
+<!--      <groupId>com.baomidou</groupId>-->
+<!--      <artifactId>mybatis-plus-boot-starter</artifactId>-->
+<!--      <version>3.5.3.1</version>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>cn.hutool</groupId>
       <artifactId>hutool-core</artifactId>
@@ -114,6 +107,13 @@
       <artifactId>hibernate-validator</artifactId>
       <version>8.0.0.Final</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-annotation -->
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-annotation</artifactId>
+      <version>3.5.3.1</version>
+    </dependency>
+
   </dependencies>
 
   <build>

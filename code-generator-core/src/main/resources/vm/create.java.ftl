@@ -4,7 +4,7 @@ package ${pkg};
 import ${impt};
 </#list>
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter

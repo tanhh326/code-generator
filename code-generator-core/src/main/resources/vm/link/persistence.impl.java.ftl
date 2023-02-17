@@ -16,7 +16,7 @@ import ${lfEntPKG}.${leftAndRight.leftEntityName?cap_first}EntityPersistenceServ
 import ${lfEntPKG}.${leftAndRight.rightEntityName?cap_first}EntityPersistenceService;
 import ${pkg}.${entityName};
 import ${pkg}.${entityName}CreateRequest;
-import ${pkg}.${entityName}Mapper;
+<#--import ${pkg}.${entityName}Mapper;-->
 import ${pkg}.${entityName}Persistence;
 import ${pkg}.${entityName}Repository;
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ import java.util.Collections;
 @Service
 public class ${entityName}PersistenceImpl implements ${entityName}Persistence {
 
-  @Autowired
-  private ${entityName}Mapper ${entityName?uncap_first}Mapper;
+<#--  @Autowired-->
+<#--  private ${entityName}Mapper ${entityName?uncap_first}Mapper;-->
   @Autowired
   private ${entityName}Repository ${entityName?uncap_first}Repository;
 

@@ -28,7 +28,7 @@ import ${commomPKG}.SortRequest;
 import ${commomPKG}.UpdateValidate;
 import ${pkg}.${entityName};
 import ${pkg}.${entityName}CreateRequest;
-import ${pkg}.${entityName}Mapper;
+<#--import ${pkg}.${entityName}Mapper;-->
 import ${pkg}.${entityName}PersistenceService;
 import ${pkg}.${entityName}QueryRequest;
 import ${pkg}.${entityName}Repository;
@@ -58,8 +58,8 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
 
   protected ${entityName}CreateValidate craeteValidate = new ${entityName}CreateValidate();
   protected ${entityName}UpdateValidate updateValidate = new ${entityName}UpdateValidate();
-  @Autowired
-  private ${entityName}Mapper ${entityName?uncap_first}Mapper;
+<#--  @Autowired-->
+<#--  private ${entityName}Mapper ${entityName?uncap_first}Mapper;-->
   @Autowired
   private ${entityName}Repository ${entityName?uncap_first}Repository;
 
