@@ -5,7 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(
     scanBasePackages = {"com.youcon"},
@@ -14,13 +16,17 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         RedisAutoConfiguration.class,
     }
 )
+@ComponentScan(
+    basePackages = {"com.youcon"}
+)
 @EnableJpaRepositories(basePackages = {
-    "com.youcon.bp.cg.go.repository.*.*", "com.youcon.bp.cg.go.link"
+    "com.youcon.bp.cg.go.*.*"
 })
-@MapperScan("com.youcon.bp.cg.go.mapper")
+@MapperScan("com.youcon.bp.cg.go")
 @EntityScan(basePackages = {
-    "com.youcon.bp.cg.go.module.db.*.*","com.youcon.bp.cg.go.link"
+    "com.youcon.bp.cg.go.*.*"
 })
+@EnableTransactionManagement
 public class Application {
 
   public static void main(String[] args) {
