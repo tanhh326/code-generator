@@ -90,7 +90,7 @@ public class UserEntityController {
     return ResultResponse.ok("删除成功");
   }
 
-  @Operation(summary = "单个删除用户")
+  @Operation(summary = "多个删除用户")
   @PostMapping("/deletes")
   public ResultResponse<Boolean> deletes(
       List<Long> ids

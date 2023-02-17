@@ -62,7 +62,7 @@ public class DeptEntityController {
   }
 
 
-  @Operation(summary = "根据id集合查询")
+  @Operation(summary = "根据id集合查询（树结构）")
   @GetMapping("/byIds/tree")
   public ResultResponse<List<Tree<Object>>> byIdsTree(
       List<Long> ids
@@ -105,7 +105,7 @@ public class DeptEntityController {
     return ResultResponse.ok("删除成功");
   }
 
-  @Operation(summary = "单个删除部门")
+  @Operation(summary = "多个删除部门")
   @PostMapping("/deletes")
   public ResultResponse<Boolean> deletes(
       List<Long> ids

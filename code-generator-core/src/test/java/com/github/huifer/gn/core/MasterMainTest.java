@@ -2,8 +2,15 @@ package com.github.huifer.gn.core;
 
 import com.github.huifer.gn.core.TableInfo.FieldInfo;
 import com.google.common.base.CaseFormat;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
@@ -174,9 +181,47 @@ class MasterMainTest {
         false, userEntity);
 
 
+    stepVue(userEntity, "api.ts.ftl", tableInfo.getTableName()+"Api.ts");
+    stepVue(userEntity, "index.vue.ftl", "index.vue");
 
 
+  }
+  static String vueTemplatePath;
+ static String vueExportPath = "/Users/zhangsan/git_repo/code-generator/hello-arco-pro/src/views/generator";
 
+  static {
+    ClassLoader classLoader = CoreSAm.class.getClassLoader();
+    URL vm = classLoader.getResource("vm");
+    URL vmVue = classLoader.getResource("vmvue");
+    vueTemplatePath = vmVue.getFile();
+  }
+
+  static String stepVue(JavaProperties javaProperties, String templateName, String eg)
+      throws IOException, TemplateException {
+
+    Configuration configuration = new Configuration(
+        Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+    configuration.setDefaultEncoding("UTF-8");
+    // 指定模板的路径
+    configuration.setDirectoryForTemplateLoading(new File(vueTemplatePath ));
+    // 根据模板名称获取路径下的模板
+    Template template = configuration.getTemplate(templateName);
+
+    StringWriter sw = new StringWriter();
+    template.process(javaProperties, sw);
+    String s = sw.toString();
+    String concat = vueExportPath.concat(String.valueOf(File.separatorChar))
+        .concat(javaProperties.getTableName()).concat(String.valueOf(File.separatorChar));
+    File file = new File(concat);
+    if (!file.exists()) {
+      file.mkdirs();
+    }
+    String out = concat.concat(eg);
+
+    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(out));
+
+    template.process(javaProperties, outputStreamWriter);
+    return s;
   }
 
   private static void extractedLink(String packageName, LinkTableInfo link)

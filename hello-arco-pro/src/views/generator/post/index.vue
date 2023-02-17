@@ -10,48 +10,17 @@
             label-align="left"
           >
             <a-row :gutter="16">
-<#list fields as field>
-  <#if field.query>
-    <#if field.fieldType == "LocalDateTime">
-                <a-col :span="8">
-                  <a-form-item
-                    field="${field.fieldName}s"
-                    label="${field.fieldDesc}"
-                  >
-                    <a-date-picker
-                      show-time
-                      v-model="queryRequest.${field.fieldName}s"
-                      style="width: 100%"
-                    />
-                  </a-form-item>
-                </a-col>
-      <#elseif field.fieldType == "DateTime">
-                <a-col :span="8">
-                  <a-form-item
-                    field="${field.fieldName}s"
-                    label="${field.fieldDesc}"
-                  >
-                    <a-range-picker
-                      v-model="queryRequest.${field.fieldName}s"
-                      style="width: 100%"
-                    />
-                  </a-form-item>
-                </a-col>
-      <#else >
               <a-col :span="8">
                 <a-form-item
-                  field="${field.fieldName}"
-                  label="${field.fieldDesc}"
+                  field="name"
+                  label="岗位名称"
               >
                   <a-input
-                    v-model="queryRequest.${field.fieldName}"
-                    placeholder="请输入${field.fieldDesc}"
+                    v-model="queryRequest.name"
+                    placeholder="请输入岗位名称"
                   />
                 </a-form-item>
               </a-col>
-    </#if>
-  </#if>
-</#list>
             </a-row>
           </a-form>
         </a-col>
@@ -126,24 +95,15 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import {${entityName}Create,UserEntityUpdate,${entityName}ById,${entityName}Page,${entityName}Delete,${entityName}Deletes} from "./${tableName}Api";
+  import {PostEntityCreate,UserEntityUpdate,PostEntityById,PostEntityPage,PostEntityDelete,PostEntityDeletes} from "./postApi";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
   // 外部
   const generateFormModel = () => {
     return {
-    <#list  fields as field>
-      // ${field.fieldDesc}
-      ${field.fieldName}:"",
-    <#if field.range >
-      ${field.fieldName}s:[],
-    <#elseif field.fieldType == "LocalDateTime" && field.range!=true>
-      ${field.fieldName}s:[],
-    <#elseif field.fieldType == "DateTime" && field.range!=true>
-      ${field.fieldName}s:[],
-    </#if>
-    </#list>
+      // 岗位名称
+      name:"",
     };
   };
   const { loading, setLoading } = useLoading(true);
@@ -162,14 +122,10 @@ import {computed, ref, reactive, onMounted} from 'vue';
 
   // 需要显示的字段
   const columns = computed<TableColumnData[]>(() => [
-<#list  fields as field>
-   <#if field.show>
     {
-      title: "${field.fieldDesc}",
-      dataIndex: '${field.fieldName}',
+      title: "岗位名称",
+      dataIndex: 'name',
     },
-    </#if>
-  </#list>
   ]);
 
   // 搜索接口
@@ -220,7 +176,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
 
 <script lang="ts">
   export default {
-    name: '${entityName}',
+    name: 'PostEntity',
   };
 </script>
 

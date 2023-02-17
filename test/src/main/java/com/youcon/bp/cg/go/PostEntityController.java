@@ -90,7 +90,7 @@ public class PostEntityController {
     return ResultResponse.ok("删除成功");
   }
 
-  @Operation(summary = "单个删除岗位")
+  @Operation(summary = "多个删除岗位")
   @PostMapping("/deletes")
   public ResultResponse<Boolean> deletes(
       List<Long> ids

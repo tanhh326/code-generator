@@ -10,80 +10,50 @@
             label-align="left"
           >
             <a-row :gutter="16">
-
               <a-col :span="8">
                 <a-form-item
-                  field="username"
-                  label="用户名"
+                  field="name"
+                  label="部门名称"
               >
                   <a-input
-                    v-model="queryRequest.username"
-                    placeholder="请输入用户名"
+                    v-model="queryRequest.name"
+                    placeholder="请输入部门名称"
                   />
                 </a-form-item>
               </a-col>
-
-
-
               <a-col :span="8">
                 <a-form-item
-                  field="age"
-                  label="年龄"
+                  field="companyId"
+                  label="单位id"
               >
                   <a-input
-                    v-model="queryRequest.age"
-                    placeholder="请输入年龄"
+                    v-model="queryRequest.companyId"
+                    placeholder="请输入单位id"
                   />
                 </a-form-item>
               </a-col>
-
-
-
-
               <a-col :span="8">
                 <a-form-item
-                  field="email"
-                  label="邮箱"
+                  field="pid"
+                  label="父id"
               >
                   <a-input
-                    v-model="queryRequest.email"
-                    placeholder="请输入邮箱"
+                    v-model="queryRequest.pid"
+                    placeholder="请输入父id"
                   />
                 </a-form-item>
               </a-col>
-
-
-
               <a-col :span="8">
                 <a-form-item
-                  field="phone"
-                  label="手机"
+                  field="leader"
+                  label="领导人"
               >
                   <a-input
-                    v-model="queryRequest.phone"
-                    placeholder="请输入手机"
+                    v-model="queryRequest.leader"
+                    placeholder="请输入领导人"
                   />
                 </a-form-item>
               </a-col>
-
-
-                <a-col :span="8">
-                  <a-form-item
-                    field="days"
-                    label="生日"
-                  >
-                    <a-range-picker
-                      show-time
-                      v-model="queryRequest.days"
-                      style="width: 100%"
-                    />
-                  </a-form-item>
-                </a-col>
-
-
-
-
-
             </a-row>
           </a-form>
         </a-col>
@@ -158,38 +128,21 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
+  import {DeptEntityCreate,UserEntityUpdate,DeptEntityById,DeptEntityPage,DeptEntityDelete,DeptEntityDeletes} from "./deptApi";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
   // 外部
   const generateFormModel = () => {
     return {
-      // 用户名
-      username:"",
-
-    
-      // 年龄
-      age:"",
-      ages:[],
-
-    
-      // 密码
-      password:"",
-
-    
-      // 邮箱
-      email:"",
-
-    
-      // 手机
-      phone:"",
-
-    
-      // 生日
-      day:"",
-      days:[],
-
-    
+      // 部门名称
+      name:"",
+      // 单位id
+      companyId:"",
+      // 父id
+      pid:"",
+      // 领导人
+      leader:"",
     };
   };
   const { loading, setLoading } = useLoading(true);
@@ -209,24 +162,20 @@ import {computed, ref, reactive, onMounted} from 'vue';
   // 需要显示的字段
   const columns = computed<TableColumnData[]>(() => [
     {
-      title: "用户名",
-      dataIndex: 'username',
+      title: "部门名称",
+      dataIndex: 'name',
     },
     {
-      title: "年龄",
-      dataIndex: 'age',
+      title: "单位id",
+      dataIndex: 'companyId',
     },
     {
-      title: "邮箱",
-      dataIndex: 'email',
+      title: "父id",
+      dataIndex: 'pid',
     },
     {
-      title: "手机",
-      dataIndex: 'phone',
-    },
-    {
-      title: "生日",
-      dataIndex: 'day',
+      title: "领导人",
+      dataIndex: 'leader',
     },
   ]);
 
@@ -258,7 +207,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
   }
   // 搜索接口
   const search = () => {
-    console.log(queryRequest.value)
+
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {
@@ -278,7 +227,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
 
 <script lang="ts">
   export default {
-    name: 'UserEntity',
+    name: 'DeptEntity',
   };
 </script>
 

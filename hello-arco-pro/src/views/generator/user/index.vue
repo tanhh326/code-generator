@@ -10,48 +10,50 @@
             label-align="left"
           >
             <a-row :gutter="16">
-<#list fields as field>
-  <#if field.query>
-    <#if field.fieldType == "LocalDateTime">
-                <a-col :span="8">
-                  <a-form-item
-                    field="${field.fieldName}s"
-                    label="${field.fieldDesc}"
-                  >
-                    <a-date-picker
-                      show-time
-                      v-model="queryRequest.${field.fieldName}s"
-                      style="width: 100%"
-                    />
-                  </a-form-item>
-                </a-col>
-      <#elseif field.fieldType == "DateTime">
-                <a-col :span="8">
-                  <a-form-item
-                    field="${field.fieldName}s"
-                    label="${field.fieldDesc}"
-                  >
-                    <a-range-picker
-                      v-model="queryRequest.${field.fieldName}s"
-                      style="width: 100%"
-                    />
-                  </a-form-item>
-                </a-col>
-      <#else >
               <a-col :span="8">
                 <a-form-item
-                  field="${field.fieldName}"
-                  label="${field.fieldDesc}"
+                  field="username"
+                  label="用户名"
               >
                   <a-input
-                    v-model="queryRequest.${field.fieldName}"
-                    placeholder="请输入${field.fieldDesc}"
+                    v-model="queryRequest.username"
+                    placeholder="请输入用户名"
                   />
                 </a-form-item>
               </a-col>
-    </#if>
-  </#if>
-</#list>
+              <a-col :span="8">
+                <a-form-item
+                  field="age"
+                  label="年龄"
+              >
+                  <a-input
+                    v-model="queryRequest.age"
+                    placeholder="请输入年龄"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="password"
+                  label="密码"
+              >
+                  <a-input
+                    v-model="queryRequest.password"
+                    placeholder="请输入密码"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="email"
+                  label="邮箱"
+              >
+                  <a-input
+                    v-model="queryRequest.email"
+                    placeholder="请输入邮箱"
+                  />
+                </a-form-item>
+              </a-col>
             </a-row>
           </a-form>
         </a-col>
@@ -126,24 +128,22 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import {${entityName}Create,UserEntityUpdate,${entityName}ById,${entityName}Page,${entityName}Delete,${entityName}Deletes} from "./${tableName}Api";
+  import {UserEntityCreate,UserEntityUpdate,UserEntityById,UserEntityPage,UserEntityDelete,UserEntityDeletes} from "./userApi";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
   // 外部
   const generateFormModel = () => {
     return {
-    <#list  fields as field>
-      // ${field.fieldDesc}
-      ${field.fieldName}:"",
-    <#if field.range >
-      ${field.fieldName}s:[],
-    <#elseif field.fieldType == "LocalDateTime" && field.range!=true>
-      ${field.fieldName}s:[],
-    <#elseif field.fieldType == "DateTime" && field.range!=true>
-      ${field.fieldName}s:[],
-    </#if>
-    </#list>
+      // 用户名
+      username:"",
+      // 年龄
+      age:"",
+      ages:[],
+      // 密码
+      password:"",
+      // 邮箱
+      email:"",
     };
   };
   const { loading, setLoading } = useLoading(true);
@@ -162,14 +162,22 @@ import {computed, ref, reactive, onMounted} from 'vue';
 
   // 需要显示的字段
   const columns = computed<TableColumnData[]>(() => [
-<#list  fields as field>
-   <#if field.show>
     {
-      title: "${field.fieldDesc}",
-      dataIndex: '${field.fieldName}',
+      title: "用户名",
+      dataIndex: 'username',
     },
-    </#if>
-  </#list>
+    {
+      title: "年龄",
+      dataIndex: 'age',
+    },
+    {
+      title: "密码",
+      dataIndex: 'password',
+    },
+    {
+      title: "邮箱",
+      dataIndex: 'email',
+    },
   ]);
 
   // 搜索接口
@@ -220,7 +228,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
 
 <script lang="ts">
   export default {
-    name: '${entityName}',
+    name: 'UserEntity',
   };
 </script>
 

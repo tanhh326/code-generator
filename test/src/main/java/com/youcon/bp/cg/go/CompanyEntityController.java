@@ -90,7 +90,7 @@ public class CompanyEntityController {
     return ResultResponse.ok("删除成功");
   }
 
-  @Operation(summary = "单个删除单位")
+  @Operation(summary = "多个删除单位")
   @PostMapping("/deletes")
   public ResultResponse<Boolean> deletes(
       List<Long> ids

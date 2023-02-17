@@ -58,10 +58,6 @@ export interface  UserEntityResponse{
   password:string;
   // 邮箱
   email:string;
-  // 手机
-  phone:string;
-  // 生日
-  day:string;
 
   id:  string;
   deleted: string;
@@ -85,10 +81,6 @@ id:  string;
   password:string;
   // 邮箱
   email:string;
-  // 手机
-  phone:string;
-  // 生日
-  day:string;
 }
 
 // 用户修改参数
@@ -101,10 +93,6 @@ export interface UserEntityUpdateRequest{
     password:string;
   // 邮箱
     email:string;
-  // 手机
-    phone:string;
-  // 生日
-    day:string;
 }
 
 // 用户查询参数
@@ -121,11 +109,5 @@ export interface UserEntityQueryRequest{
 
   // 邮箱
   email:string;
-
-  // 手机
-  phone:string;
-
-  // 生日
-  day:string;
 
 }
