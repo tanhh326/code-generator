@@ -15,13 +15,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     }
 )
 @ComponentScan(
-    basePackages = {"com.youcon"}
+    basePackages = {
+        "com.youcon.bp.cg.go.controller",
+        "com.youcon.bp.cg.go.repository",
+        "com.youcon.bp.cg.go.service"
+    }
 )
 @EnableJpaRepositories(basePackages = {
-    "com.youcon.bp.cg.go.repository.*"
+    "com.youcon.bp.cg.go.repository"
 })
 @EntityScan(basePackages = {
-    "com.youcon.bp.cg.go.engity.*"
+    "com.youcon.bp.cg.go.engity"
 })
 @EnableTransactionManagement
 public class Application {
