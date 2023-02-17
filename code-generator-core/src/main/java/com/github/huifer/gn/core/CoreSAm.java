@@ -85,6 +85,7 @@ public class CoreSAm {
     password.setFieldName("password");
     password.setFieldDesc("密码");
     password.setType(FieldType.Varchar);
+    password.setTableShow(false);
     fieldInfos.add(password);
     FieldInfo email = new FieldInfo();
     email.setFieldDesc("邮箱");
@@ -122,7 +123,9 @@ public class CoreSAm {
   public void generatorVue(TableInfo tableInfo) throws TemplateException, IOException {
     step1();
     JavaProperties javaProperties = step2(tableInfo);
-    stepVue(javaProperties, "api.ts.ftl", "api.ts");
+
+    stepVue(javaProperties, "api.ts.ftl", tableInfo.getTableName()+"Api.ts");
+    stepVue(javaProperties, "index.vue.ftl", "index.vue");
   }
   public String stepVue(JavaProperties javaProperties, String templateName, String eg)
       throws IOException, TemplateException {
@@ -155,7 +158,7 @@ public class CoreSAm {
         commonPackage, commonPackage);
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       po.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
-          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(), fieldInfo.isPid());
+          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(), fieldInfo.isPid(),fieldInfo.isEditor(),fieldInfo.isTableShow());
     }
     return po;
   }

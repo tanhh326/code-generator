@@ -20,13 +20,13 @@ export function ${entityName}ById(id:string) {
 
 // 根据id集合查询
 export function ${entityName}ByIds(ids:string[]) {
-  return axios.get('/${tableName}/byIds',{params:{ids}});
+  return axios.get('/${tableName}/byIds',{params: {ids: ids.join(",")}});
 }
 
 <#if pidField??>
 // 根据id集合查询（树结构）
 export function ${entityName}ByIdsTree(ids:string[]){
-  return axios.get('/${tableName}/byIds/tree');
+  return axios.get('/${tableName}/byIds/tree',{params: {ids: ids.join(",")});
 }
 </#if>
 
@@ -49,7 +49,7 @@ export function ${entityName}Page(request:${entityName}QueryRequest,page:PageAnd
 
 // 单个删除${tableDesc}
 export function ${entityName}Delete(id:string) {
-  return axios.post('/${tableName}/delete');
+  return axios.post('/${tableName}/delete',);
 }
 // 多个删除${tableDesc}
 export function ${entityName}Deletes(id:string[]) {
@@ -61,7 +61,7 @@ export function ${entityName}Deletes(id:string[]) {
 <#list  forinKeyList as fk>
 // 根据${fk.fieldDesc}查询${tableDesc}
 export function ${entityName}FindBy${fk.fkName?cap_first}Id(${fk.fieldName}:string){
-  return axios.get('/${tableName}/findBy${fk.fkName?cap_first}Id');
+  return axios.get('/${tableName}/findBy${fk.fkName?cap_first}Id',);
 }
 
 <#if pidField??>
@@ -72,11 +72,11 @@ export function ${entityName}FindBy${fk.fkName?cap_first}IdTree(${fk.fieldName}:
 </#if>
 // 根据${fk.fieldDesc}查询${tableDesc}集合
 export function ${entityName}FindBy${fk.fkName?cap_first}Ids(${fk.fieldName}s:string[]){
-  return axios.get('/${tableName}/findBy${fk.fkName?cap_first}Ids');
+  return axios.get('/${tableName}/findBy${fk.fkName?cap_first}Ids',{params: {${fk.fieldName}s: ${fk.fieldName}s.join(",")}});
 }
 <#if pidField??>
 export function ${entityName}findBy${fk.fkName?cap_first}IdsTree(${fk.fieldName}s:string[]){
-  return axios.get('/${tableName}/findBy${fk.fkName?cap_first}Ids/tree');
+  return axios.get('/${tableName}/findBy${fk.fkName?cap_first}Ids/tree',{params: {${fk.fieldName}s: ${fk.fieldName}s.join(",")}});
 }
 </#if>
 

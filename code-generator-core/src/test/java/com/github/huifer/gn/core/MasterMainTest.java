@@ -148,7 +148,8 @@ class MasterMainTest {
 
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       userEntity.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
-          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(),fieldInfo.isPid());
+          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(),fieldInfo.isPid(),
+          fieldInfo.isEditor(), fieldInfo.isTableShow());
     }
 
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "entity.java.ftl", "", false,
@@ -175,7 +176,6 @@ class MasterMainTest {
 
 
 
-    // 生产vue相关代码
 
   }
 
