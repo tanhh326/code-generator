@@ -11,6 +11,7 @@
           >
             <a-row :gutter="16">
 <#list fields as field>
+<#if field.query>
               <a-col :span="8">
                 <a-form-item
                   field="${field.fieldName}"
@@ -22,6 +23,7 @@
                   />
                 </a-form-item>
               </a-col>
+</#if>
 </#list>
 
 
@@ -135,10 +137,12 @@ import {computed, ref, reactive, onMounted} from 'vue';
   // 需要显示的字段
   const columns = computed<TableColumnData[]>(() => [
 <#list  fields as field>
+   <#if field.show>
     {
       title: "${field.fieldDesc}",
       dataIndex: '${field.fieldName}',
     },
+    </#if>
   </#list>
   ]);
 

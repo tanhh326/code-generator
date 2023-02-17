@@ -34,17 +34,6 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item
-                  field="password"
-                  label="密码"
-                >
-                  <a-input
-                    v-model="queryRequest.password"
-                    placeholder="请输入密码"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item
                   field="email"
                   label="邮箱"
                 >
@@ -174,10 +163,6 @@ import {computed, ref, reactive, onMounted} from 'vue';
     {
       title: "年龄",
       dataIndex: 'age',
-    },
-    {
-      title: "密码",
-      dataIndex: 'password',
     },
     {
       title: "邮箱",

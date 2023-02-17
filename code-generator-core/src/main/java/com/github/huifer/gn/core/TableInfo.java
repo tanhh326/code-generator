@@ -20,6 +20,7 @@ public class TableInfo {
     private String fieldDesc;
     private FieldType type;
     private boolean nul;
+    private boolean query = true;
 
     /**
      * 是否允许范围查询
@@ -39,12 +40,12 @@ public class TableInfo {
     /**
      * 是否需要前端列表显示
      */
-    private boolean tableShow;
+    private boolean tableShow = true;
 
     /**
      * 是否可以修改
      */
-    private boolean editor;
+    private boolean editor = true;
   }
 
 

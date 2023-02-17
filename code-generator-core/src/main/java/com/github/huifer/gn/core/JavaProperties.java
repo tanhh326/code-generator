@@ -86,7 +86,7 @@ public class JavaProperties {
   }
 
   public void addField(Class<?> type, String fieldName, String desc, boolean range, boolean fk,
-      boolean pid,boolean editor,boolean show) {
+      boolean pid,boolean editor,boolean show,boolean query) {
 
     // 处理 java.lang
     final String pattern = "java.lang";
@@ -104,6 +104,7 @@ public class JavaProperties {
     field.setFieldDesc(desc);
     field.setEditor(editor);
     field.setShow(show);
+    field.setQuery(query);
     if (fk) {
       field.setFkName(fieldName.replace("Id", ""));
       forinKeyList.add(field);
@@ -237,6 +238,16 @@ public class JavaProperties {
 
     public boolean isShow() {
       return show;
+    }
+
+    private boolean query;
+
+    public boolean isQuery() {
+      return query;
+    }
+
+    public void setQuery(boolean query) {
+      this.query = query;
     }
 
     public void setShow(boolean show) {

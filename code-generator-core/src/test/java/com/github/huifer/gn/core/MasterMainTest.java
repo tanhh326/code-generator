@@ -149,7 +149,7 @@ class MasterMainTest {
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       userEntity.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
           fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(),fieldInfo.isPid(),
-          fieldInfo.isEditor(), fieldInfo.isTableShow());
+          fieldInfo.isEditor(), fieldInfo.isTableShow(),fieldInfo.isQuery());
     }
 
     FreeMarket.autoCodingJavaEntity(rootPath, templatePath, "entity.java.ftl", "", false,

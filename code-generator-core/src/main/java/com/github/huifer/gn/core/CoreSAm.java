@@ -86,6 +86,7 @@ public class CoreSAm {
     password.setFieldDesc("密码");
     password.setType(FieldType.Varchar);
     password.setTableShow(false);
+    password.setQuery(false);
     fieldInfos.add(password);
     FieldInfo email = new FieldInfo();
     email.setFieldDesc("邮箱");
@@ -158,7 +159,8 @@ public class CoreSAm {
         commonPackage, commonPackage);
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       po.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
-          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(), fieldInfo.isPid(),fieldInfo.isEditor(),fieldInfo.isTableShow());
+          fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(), fieldInfo.isPid(),
+          fieldInfo.isEditor(), fieldInfo.isTableShow(), fieldInfo.isQuery());
     }
     return po;
   }
