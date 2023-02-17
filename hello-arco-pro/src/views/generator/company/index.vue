@@ -176,9 +176,9 @@ import {computed, ref, reactive, onMounted} from 'vue';
     try {
       let page = {
         size: basePagination.pageSize,
-        page: basePagination.current,
-
+        page: basePagination.current
       }
+      let c = CompanyEntityPage(queryRequest.value,page)
       response.value = [];
       pagination.current = 0;
       pagination.total = 100;
