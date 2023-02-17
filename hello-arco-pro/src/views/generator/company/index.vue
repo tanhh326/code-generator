@@ -23,17 +23,6 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item
-                  field="pid"
-                  label="父id"
-              >
-                  <a-input
-                    v-model="queryRequest.pid"
-                    placeholder="请输入父id"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item
                   field="logo"
                   label="图标"
               >
@@ -128,13 +117,20 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import {CompanyEntityCreate,UserEntityUpdate,CompanyEntityById,CompanyEntityPage,CompanyEntityDelete,CompanyEntityDeletes} from "./companyApi";
+  import {
+    CompanyEntityCreate,
+    CompanyEntityUpdate,
+    CompanyEntityById,
+    CompanyEntityPage,
+    CompanyEntityDelete,
+    CompanyEntityDeletes,
+    CompanyEntityQueryRequest
+    } from "./companyApi";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
   // 外部
-  const generateFormModel = () => {
-    return {
+  const generateFormModel:CompanyEntityQueryRequest = {
       // 单位名称
       name:"",
       // 父id
@@ -143,11 +139,10 @@ import {computed, ref, reactive, onMounted} from 'vue';
       logo:"",
       // 地址
       address:"",
-    };
   };
   const { loading, setLoading } = useLoading(true);
   const response = ref([]);
-  const queryRequest = ref(generateFormModel());
+  const queryRequest = ref(generateFormModel);
 
   const size = ref<SizeProps>('medium');
 
@@ -166,10 +161,6 @@ import {computed, ref, reactive, onMounted} from 'vue';
       dataIndex: 'name',
     },
     {
-      title: "父id",
-      dataIndex: 'pid',
-    },
-    {
       title: "图标",
       dataIndex: 'logo',
     },
@@ -183,6 +174,11 @@ import {computed, ref, reactive, onMounted} from 'vue';
   const fetchData =  () => {
     setLoading(true);
     try {
+      let page = {
+        size: basePagination.pageSize,
+        page: basePagination.current,
+
+      }
       response.value = [];
       pagination.current = 0;
       pagination.total = 100;
@@ -207,7 +203,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
   }
   // 搜索接口
   const search = () => {
-
+    console.log(queryRequest.value);
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {

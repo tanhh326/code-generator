@@ -32,7 +32,7 @@ export function CompanyEntityList(request:CompanyEntityQueryRequest) {
 
 // 单位分页
 export function CompanyEntityPage(request:CompanyEntityQueryRequest,page:PageAndSortRequest) {
-  return axios.get('/company/page');
+  return axios.get('/company/page',{params:Object.assign(request,page)});
 }
 
 // 单个删除单位

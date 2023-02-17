@@ -37,7 +37,7 @@ const LIST: AppRouteRecordRaw = {
     {
       path: 'ces-table', // The midline path complies with SEO specifications
       name: 'CesTable',
-      component: () => import('@/views/generator/index.vue'),
+      component: () => import('@/views/generator/company/index.vue'),
       meta: {
         locale: 'menu.list.cesTable',
         requiresAuth: true,

@@ -40,7 +40,7 @@ export function DeptEntityListTree(request:DeptEntityQueryRequest){
 
 // 部门分页
 export function DeptEntityPage(request:DeptEntityQueryRequest,page:PageAndSortRequest) {
-  return axios.get('/dept/page');
+  return axios.get('/dept/page',{params:Object.assign(request,page)});
 }
 
 // 单个删除部门

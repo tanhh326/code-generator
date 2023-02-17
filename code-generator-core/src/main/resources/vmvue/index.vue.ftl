@@ -126,13 +126,20 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import {${entityName}Create,UserEntityUpdate,${entityName}ById,${entityName}Page,${entityName}Delete,${entityName}Deletes} from "./${tableName}Api";
+  import {
+    ${entityName}Create,
+    ${entityName}Update,
+    ${entityName}ById,
+    ${entityName}Page,
+    ${entityName}Delete,
+    ${entityName}Deletes,
+    ${entityName}QueryRequest
+    } from "./${tableName}Api";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
   // 外部
-  const generateFormModel = () => {
-    return {
+  const generateFormModel:${entityName}QueryRequest = {
     <#list  fields as field>
       // ${field.fieldDesc}
       ${field.fieldName}:"",
@@ -144,11 +151,10 @@ import {computed, ref, reactive, onMounted} from 'vue';
       ${field.fieldName}s:[],
     </#if>
     </#list>
-    };
   };
   const { loading, setLoading } = useLoading(true);
   const response = ref([]);
-  const queryRequest = ref(generateFormModel());
+  const queryRequest = ref(generateFormModel);
 
   const size = ref<SizeProps>('medium');
 
@@ -176,6 +182,11 @@ import {computed, ref, reactive, onMounted} from 'vue';
   const fetchData =  () => {
     setLoading(true);
     try {
+      let page = {
+        size: basePagination.pageSize,
+        page: basePagination.current,
+
+      }
       response.value = [];
       pagination.current = 0;
       pagination.total = 100;
@@ -200,7 +211,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
   }
   // 搜索接口
   const search = () => {
-
+    console.log(queryRequest.value);
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {

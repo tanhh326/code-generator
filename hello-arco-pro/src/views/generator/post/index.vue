@@ -95,20 +95,26 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import {PostEntityCreate,UserEntityUpdate,PostEntityById,PostEntityPage,PostEntityDelete,PostEntityDeletes} from "./postApi";
+  import {
+    PostEntityCreate,
+    PostEntityUpdate,
+    PostEntityById,
+    PostEntityPage,
+    PostEntityDelete,
+    PostEntityDeletes,
+    PostEntityQueryRequest
+    } from "./postApi";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
   // 外部
-  const generateFormModel = () => {
-    return {
+  const generateFormModel:PostEntityQueryRequest = {
       // 岗位名称
       name:"",
-    };
   };
   const { loading, setLoading } = useLoading(true);
   const response = ref([]);
-  const queryRequest = ref(generateFormModel());
+  const queryRequest = ref(generateFormModel);
 
   const size = ref<SizeProps>('medium');
 
@@ -132,6 +138,11 @@ import {computed, ref, reactive, onMounted} from 'vue';
   const fetchData =  () => {
     setLoading(true);
     try {
+      let page = {
+        size: basePagination.pageSize,
+        page: basePagination.current,
+
+      }
       response.value = [];
       pagination.current = 0;
       pagination.total = 100;
@@ -156,7 +167,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
   }
   // 搜索接口
   const search = () => {
-
+    console.log(queryRequest.value);
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {

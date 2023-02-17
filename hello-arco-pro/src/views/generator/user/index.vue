@@ -128,13 +128,20 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import {UserEntityCreate,UserEntityUpdate,UserEntityById,UserEntityPage,UserEntityDelete,UserEntityDeletes} from "./userApi";
+  import {
+    UserEntityCreate,
+    UserEntityUpdate,
+    UserEntityById,
+    UserEntityPage,
+    UserEntityDelete,
+    UserEntityDeletes,
+    UserEntityQueryRequest
+    } from "./userApi";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
   // 外部
-  const generateFormModel = () => {
-    return {
+  const generateFormModel:UserEntityQueryRequest = {
       // 用户名
       username:"",
       // 年龄
@@ -144,11 +151,10 @@ import {computed, ref, reactive, onMounted} from 'vue';
       password:"",
       // 邮箱
       email:"",
-    };
   };
   const { loading, setLoading } = useLoading(true);
   const response = ref([]);
-  const queryRequest = ref(generateFormModel());
+  const queryRequest = ref(generateFormModel);
 
   const size = ref<SizeProps>('medium');
 
@@ -184,6 +190,11 @@ import {computed, ref, reactive, onMounted} from 'vue';
   const fetchData =  () => {
     setLoading(true);
     try {
+      let page = {
+        size: basePagination.pageSize,
+        page: basePagination.current,
+
+      }
       response.value = [];
       pagination.current = 0;
       pagination.total = 100;
@@ -208,7 +219,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
   }
   // 搜索接口
   const search = () => {
-
+    console.log(queryRequest.value);
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {

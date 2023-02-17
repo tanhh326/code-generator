@@ -74,6 +74,8 @@ class MasterMainTest {
     FieldInfo pid = new FieldInfo();
     pid.setFieldName("pid");
     pid.setFieldDesc("父id");
+    pid.setTableShow(false);
+    pid.setQuery(false);
     pid.setType(FieldType.Long);
     fieldInfos.add(pid);
 

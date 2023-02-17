@@ -44,7 +44,7 @@ export function ${entityName}ListTree(request:${entityName}QueryRequest){
 
 // ${tableDesc}分页
 export function ${entityName}Page(request:${entityName}QueryRequest,page:PageAndSortRequest) {
-  return axios.get('/${tableName}/page');
+  return axios.get('/${tableName}/page',{params:Object.assign(request,page)});
 }
 
 // 单个删除${tableDesc}

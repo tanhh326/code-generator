@@ -32,7 +32,7 @@ export function UserEntityList(request:UserEntityQueryRequest) {
 
 // 用户分页
 export function UserEntityPage(request:UserEntityQueryRequest,page:PageAndSortRequest) {
-  return axios.get('/user/page');
+  return axios.get('/user/page',{params:Object.assign(request,page)});
 }
 
 // 单个删除用户

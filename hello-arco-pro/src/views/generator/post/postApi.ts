@@ -32,7 +32,7 @@ export function PostEntityList(request:PostEntityQueryRequest) {
 
 // 岗位分页
 export function PostEntityPage(request:PostEntityQueryRequest,page:PageAndSortRequest) {
-  return axios.get('/post/page');
+  return axios.get('/post/page',{params:Object.assign(request,page)});
 }
 
 // 单个删除岗位
