@@ -96,7 +96,15 @@ public class CoreSAm {
     FieldInfo phone = new FieldInfo();
     phone.setFieldName("phone");
     phone.setFieldDesc("手机");
-    email.setType(FieldType.Varchar);
+    phone.setType(FieldType.Varchar);
+    fieldInfos.add(phone);
+
+    FieldInfo day = new FieldInfo();
+    day.setType(FieldType.LocalDateTime);
+    day.setFieldDesc("生日");
+    day.setFieldName("day");
+    fieldInfos.add(day);
+
     tableInfo.setFieldInfos(fieldInfos);
     return tableInfo;
   }

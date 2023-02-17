@@ -10,39 +10,76 @@
             label-align="left"
           >
             <a-row :gutter="16">
+
               <a-col :span="8">
                 <a-form-item
                   field="username"
                   label="用户名"
-                >
+              >
                   <a-input
                     v-model="queryRequest.username"
                     placeholder="请输入用户名"
                   />
                 </a-form-item>
               </a-col>
+
+
+
               <a-col :span="8">
                 <a-form-item
                   field="age"
                   label="年龄"
-                >
+              >
                   <a-input
                     v-model="queryRequest.age"
                     placeholder="请输入年龄"
                   />
                 </a-form-item>
               </a-col>
+
+
+
+
               <a-col :span="8">
                 <a-form-item
                   field="email"
                   label="邮箱"
-                >
+              >
                   <a-input
                     v-model="queryRequest.email"
                     placeholder="请输入邮箱"
                   />
                 </a-form-item>
               </a-col>
+
+
+
+              <a-col :span="8">
+                <a-form-item
+                  field="phone"
+                  label="手机"
+              >
+                  <a-input
+                    v-model="queryRequest.phone"
+                    placeholder="请输入手机"
+                  />
+                </a-form-item>
+              </a-col>
+
+
+                <a-col :span="8">
+                  <a-form-item
+                    field="days"
+                    label="生日"
+                  >
+                    <a-range-picker
+                      show-time
+                      v-model="queryRequest.days"
+                      style="width: 100%"
+                    />
+                  </a-form-item>
+                </a-col>
+
 
 
 
@@ -123,21 +160,36 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
-  type Column = TableColumnData & { checked?: true };
 
   // 外部
   const generateFormModel = () => {
     return {
+      // 用户名
+      username:"",
 
-  // 用户名
-  username:"",
-  // 年龄
-  age:"",
-  ages:[],
-  // 密码
-  password:"",
-  // 邮箱
-  email:"",
+    
+      // 年龄
+      age:"",
+      ages:[],
+
+    
+      // 密码
+      password:"",
+
+    
+      // 邮箱
+      email:"",
+
+    
+      // 手机
+      phone:"",
+
+    
+      // 生日
+      day:"",
+      days:[],
+
+    
     };
   };
   const { loading, setLoading } = useLoading(true);
@@ -167,6 +219,14 @@ import {computed, ref, reactive, onMounted} from 'vue';
     {
       title: "邮箱",
       dataIndex: 'email',
+    },
+    {
+      title: "手机",
+      dataIndex: 'phone',
+    },
+    {
+      title: "生日",
+      dataIndex: 'day',
     },
   ]);
 
@@ -198,7 +258,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
   }
   // 搜索接口
   const search = () => {
-
+    console.log(queryRequest.value)
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {

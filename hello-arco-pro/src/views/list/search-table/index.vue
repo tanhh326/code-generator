@@ -57,7 +57,7 @@
               <a-col :span="8">
                 <a-form-item
                   field="createdTime"
-                  :label="$t('searchTable.form.createdTime')"
+                  label="1111"
                 >
                   <a-range-picker
                     v-model="formModel.createdTime"

@@ -11,19 +11,49 @@
           >
             <a-row :gutter="16">
 <#list fields as field>
-<#if field.query>
+  <#if field.query>
+    <#if field.fieldType == "LocalDateTime">
+                <a-col :span="8">
+                  <a-form-item
+                    field="${field.fieldName}s"
+                    label="${field.fieldDesc}"
+                  >
+                    <a-date-picker
+                      show-time
+                      v-model="queryRequest.${field.fieldName}s"
+                      style="width: 100%"
+                    />
+                  </a-form-item>
+                </a-col>
+      <#elseif field.fieldType == "DateTime">
+                <a-col :span="8">
+                  <a-form-item
+                    field="${field.fieldName}s"
+                    label="${field.fieldDesc}"
+                  >
+                    <a-range-picker
+                      v-model="queryRequest.${field.fieldName}s"
+                      style="width: 100%"
+                    />
+                  </a-form-item>
+                </a-col>
+      <#else >
+
               <a-col :span="8">
                 <a-form-item
                   field="${field.fieldName}"
                   label="${field.fieldDesc}"
-                >
+              >
                   <a-input
                     v-model="queryRequest.${field.fieldName}"
                     placeholder="请输入${field.fieldDesc}"
                   />
                 </a-form-item>
               </a-col>
-</#if>
+
+    </#if>
+  </#if>
+
 </#list>
 
 
@@ -105,19 +135,23 @@ import {computed, ref, reactive, onMounted} from 'vue';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
-  type Column = TableColumnData & { checked?: true };
 
   // 外部
   const generateFormModel = () => {
     return {
+    <#list  fields as field>
+      // ${field.fieldDesc}
+      ${field.fieldName}:"",
+    <#if field.range >
+      ${field.fieldName}s:[],
+    <#elseif field.fieldType == "LocalDateTime" && field.range!=true>
+      ${field.fieldName}s:[],
+    <#elseif field.fieldType == "DateTime" && field.range!=true>
+      ${field.fieldName}s:[],
+    </#if>
 
-<#list  fields as field>
-  // ${field.fieldDesc}
-  ${field.fieldName}:"",
-<#if field.range >
-  ${field.fieldName}s:[],
-</#if>
-</#list>
+    
+    </#list>
     };
   };
   const { loading, setLoading } = useLoading(true);
