@@ -8,17 +8,17 @@
     ?uncap_first
     >
 </#function>
-package ${pkg}.impl;
+package ${pkg}.persistence.impl;
 
-import ${lfEntPKG}.${leftAndRight.rightEntityName?cap_first}EntityResponse;
-import ${lfEntPKG}.${leftAndRight.leftEntityName?cap_first}EntityResponse;
-import ${lfEntPKG}.${leftAndRight.leftEntityName?cap_first}EntityPersistenceService;
-import ${lfEntPKG}.${leftAndRight.rightEntityName?cap_first}EntityPersistenceService;
-import ${pkg}.${entityName};
-import ${pkg}.${entityName}CreateRequest;
+import ${lfEntPKG}.servlet.${leftAndRight.rightEntityName?cap_first}EntityResponse;
+import ${lfEntPKG}.servlet.${leftAndRight.leftEntityName?cap_first}EntityResponse;
+import ${lfEntPKG}.persistence.${leftAndRight.leftEntityName?cap_first}EntityPersistenceService;
+import ${lfEntPKG}.persistence.${leftAndRight.rightEntityName?cap_first}EntityPersistenceService;
+import ${pkg}.entity.${entityName};
+import ${pkg}.servlet.${entityName}CreateRequest;
 <#--import ${pkg}.${entityName}Mapper;-->
-import ${pkg}.${entityName}Persistence;
-import ${pkg}.${entityName}Repository;
+import ${pkg}.persistence.${entityName}PersistenceService;
+import ${pkg}.repository.${entityName}Repository;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -33,7 +33,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collections;
 
 @Service
-public class ${entityName}PersistenceImpl implements ${entityName}Persistence {
+public class ${entityName}PersistenceServiceImpl implements ${entityName}PersistenceService {
 
 <#--  @Autowired-->
 <#--  private ${entityName}Mapper ${entityName?uncap_first}Mapper;-->

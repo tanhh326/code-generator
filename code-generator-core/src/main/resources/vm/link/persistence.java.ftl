@@ -8,14 +8,15 @@
     ?uncap_first
     >
 </#function>
-package ${pkg};
-import ${pkg}.${entityName};
-import ${lfEntPKG}.${leftAndRight.rightEntityName?cap_first}EntityResponse;
-import ${lfEntPKG}.${leftAndRight.leftEntityName?cap_first}EntityResponse;
+package ${pkg}.persistence;
+import ${pkg}.servlet.${entityName}CreateRequest;
+import ${pkg}.entity.${entityName};
+import ${lfEntPKG}.servlet.${leftAndRight.rightEntityName?cap_first}EntityResponse;
+import ${lfEntPKG}.servlet.${leftAndRight.leftEntityName?cap_first}EntityResponse;
 import java.util.List;
 
 
-public interface ${entityName}Persistence {
+public interface ${entityName}PersistenceService {
 
     /**
      * 建立关系

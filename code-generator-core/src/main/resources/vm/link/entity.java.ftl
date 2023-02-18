@@ -9,7 +9,7 @@
     >
 </#function>
 
-package ${pkg};
+package ${pkg}.entity;
 
 <#list  imports as impt>
 import ${impt};

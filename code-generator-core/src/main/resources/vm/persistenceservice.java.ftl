@@ -1,10 +1,15 @@
-package ${pkg};
+package ${pkg}.persistence;
 
 
 import ${commomPKG}.PageAndSortRequest;
 import ${commomPKG}.PageResponse;
 import java.util.List;
 import cn.hutool.core.lang.tree.Tree;
+import ${pkg}.servlet.${entityName}CreateRequest;
+import ${pkg}.servlet.${entityName}QueryRequest;
+import ${pkg}.servlet.${entityName}Repository;
+import ${pkg}.servlet.${entityName}Response;
+import ${pkg}.servlet.${entityName}UpdateRequest;
 
 /**
  * 持久层交互

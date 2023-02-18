@@ -1,4 +1,4 @@
-package ${pkg};
+package ${pkg}.servlet;
 
 <#list  imports as impt>
 import ${impt};

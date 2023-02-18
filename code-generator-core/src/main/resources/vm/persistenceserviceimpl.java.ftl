@@ -1,4 +1,4 @@
-package ${pkg}.impl;
+package ${pkg}.persistence.impl;
 
 <#function dashedToCamel(s)>
     <#return s
@@ -28,14 +28,14 @@ import ${commomPKG}.PageAndSortRequest;
 import ${commomPKG}.PageResponse;
 import ${commomPKG}.SortRequest;
 import ${commomPKG}.UpdateValidate;
-import ${pkg}.${entityName};
-import ${pkg}.${entityName}CreateRequest;
+import ${pkg}.servlet.${entityName};
+import ${pkg}.servlet.${entityName}CreateRequest;
 <#--import ${pkg}.${entityName}Mapper;-->
-import ${pkg}.${entityName}PersistenceService;
-import ${pkg}.${entityName}QueryRequest;
-import ${pkg}.${entityName}Repository;
-import ${pkg}.${entityName}Response;
-import ${pkg}.${entityName}UpdateRequest;
+import ${pkg}.persistence.${entityName}PersistenceService;
+import ${pkg}.servlet.${entityName}QueryRequest;
+import ${pkg}.repository.${entityName}Repository;
+import ${pkg}.servlet.${entityName}Response;
+import ${pkg}.servlet.${entityName}UpdateRequest;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

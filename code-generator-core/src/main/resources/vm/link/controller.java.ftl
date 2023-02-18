@@ -1,8 +1,11 @@
-package ${pkg};
+package ${pkg}.controller;
 
 import ${commomPKG}.ResultResponse;
-import ${lfEntPKG}.${leftAndRight.rightEntityName?cap_first}EntityResponse;
-import ${lfEntPKG}.${leftAndRight.leftEntityName?cap_first}EntityResponse;
+import ${pkg}.persistence.${entityName}PersistenceService;
+import ${pkg}.servlet.${entityName}CreateRequest;
+
+import ${lfEntPKG}.servlet.${leftAndRight.rightEntityName?cap_first}EntityResponse;
+import ${lfEntPKG}.servlet.${leftAndRight.leftEntityName?cap_first}EntityResponse;
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class ${entityName}Controller {
 
   @Autowired
-  private ${entityName}Persistence ${entityName?uncap_first}Persistence;
+  private ${entityName}PersistenceService ${entityName?uncap_first}Persistence;
 
 
   @PostMapping("/bind")

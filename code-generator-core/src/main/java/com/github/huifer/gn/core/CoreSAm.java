@@ -54,12 +54,20 @@ public class CoreSAm {
     String packageName = "com.github.huifer";
     String module = "user";
     String commonPackage = "com.youcon.bp.cg";
+    LinkTableInfo userBindDept = new LinkTableInfo("user", "dept");
+    LinkTableInfo deptBindPost = new LinkTableInfo("dept", "post");
+    LinkTableInfo userBindPost = new LinkTableInfo("user", "post");
 
-    TableInfo tableInfo = UserInfo();
     CoreSAm sAm = new CoreSAm(
         rootPath, packageName, module, commonPackage, vueExportPath
     );
-    sAm.singlet(tableInfo);
+    sAm.singlet(UserInfo());
+    sAm.singlet(postInfo());
+    sAm.singlet(DeptInfo());
+    sAm.singlet(companyInfo());
+    sAm.link(userBindDept);
+    sAm.link(deptBindPost);
+    sAm.link(userBindPost);
 //    sAm.generatorVue(tableInfo);
 
   }
@@ -109,6 +117,90 @@ public class CoreSAm {
     return tableInfo;
   }
 
+  public static TableInfo companyInfo() {
+    TableInfo tableInfo = new TableInfo();
+    tableInfo.setTableName("company");
+    tableInfo.setTableDesc("单位");
+    tableInfo.setMid(false);
+    ArrayList<FieldInfo> fieldInfos = new ArrayList<>();
+
+    FieldInfo name = new FieldInfo();
+    name.setType(FieldType.Varchar);
+    name.setFieldDesc("单位名称");
+    name.setFieldName("name");
+    fieldInfos.add(name);
+    FieldInfo pid = new FieldInfo();
+    pid.setFieldName("pid");
+    pid.setFieldDesc("父id");
+    pid.setTableShow(false);
+    pid.setQuery(false);
+    pid.setType(FieldType.Long);
+    fieldInfos.add(pid);
+
+    FieldInfo logo = new FieldInfo();
+    logo.setType(FieldType.Varchar);
+    logo.setFieldDesc("图标");
+    logo.setFieldName("logo");
+    fieldInfos.add(logo);
+
+    FieldInfo address = new FieldInfo();
+    address.setType(FieldType.Varchar);
+    address.setFieldDesc("地址");
+    address.setFieldName("address");
+    fieldInfos.add(address);
+    tableInfo.setFieldInfos(fieldInfos);
+
+    return tableInfo;
+  }
+
+  public static TableInfo postInfo() {
+    TableInfo tableInfo = new TableInfo();
+    tableInfo.setTableName("post");
+    tableInfo.setTableDesc("岗位");
+    tableInfo.setMid(false);
+    ArrayList<FieldInfo> fieldInfos = new ArrayList<>();
+    FieldInfo name = new FieldInfo();
+    name.setType(FieldType.Varchar);
+    name.setFieldDesc("岗位名称");
+    name.setFieldName("name");
+    fieldInfos.add(name);
+    tableInfo.setFieldInfos(fieldInfos);
+
+    return tableInfo;
+  }
+
+
+  public static TableInfo DeptInfo() {
+    TableInfo tableInfo = new TableInfo();
+    tableInfo.setTableName("dept");
+    tableInfo.setTableDesc("部门");
+    ArrayList<FieldInfo> fieldInfos = new ArrayList<>();
+    FieldInfo name = new FieldInfo();
+    name.setType(FieldType.Varchar);
+    name.setFieldDesc("部门名称");
+    name.setFieldName("name");
+    fieldInfos.add(name);
+    FieldInfo companyId = new FieldInfo();
+    companyId.setFieldName("companyId");
+    companyId.setFieldDesc("单位id");
+    companyId.setType(FieldType.Long);
+    companyId.setFk(true);
+    fieldInfos.add(companyId);
+    FieldInfo pid = new FieldInfo();
+    pid.setFieldName("pid");
+    pid.setFieldDesc("父id");
+    pid.setType(FieldType.Long);
+    pid.setPid(true);
+    fieldInfos.add(pid);
+    FieldInfo leader = new FieldInfo();
+    leader.setFieldName("leader");
+    leader.setFieldDesc("领导人");
+    leader.setType(FieldType.Long);
+    fieldInfos.add(leader);
+    tableInfo.setFieldInfos(fieldInfos);
+    return tableInfo;
+  }
+
   public void singlet(
       TableInfo tableInfo
   ) throws IOException, TemplateException {
@@ -116,16 +208,65 @@ public class CoreSAm {
     step1();
     JavaProperties javaProperties = step2(tableInfo);
 
-    step3(javaProperties, "entity.java.ftl", TemplateEnums.ENTITY);
-    step3(javaProperties, "mapper.java.ftl", TemplateEnums.MAPPER);
-    step3(javaProperties, "repository.java.ftl", TemplateEnums.REPOSITORY);
-    step3(javaProperties, "create.java.ftl", TemplateEnums.CreateRequest);
-    step3(javaProperties, "update.java.ftl", TemplateEnums.UpdateRequest);
-    step3(javaProperties, "response.java.ftl", TemplateEnums.Response);
-    step3(javaProperties, "query.java.ftl", TemplateEnums.QueryRequest);
-    step3(javaProperties, "persistenceservice.java.ftl", TemplateEnums.persistence);
-    step3(javaProperties, "persistenceserviceimpl.java.ftl", TemplateEnums.persistence_impl);
-    step3(javaProperties, "controller.java.ftl", TemplateEnums.CONTROLLER);
+    step3ForSing(javaProperties, "entity.java.ftl", TemplateEnums.ENTITY);
+    step3ForSing(javaProperties, "mapper.java.ftl", TemplateEnums.MAPPER);
+    step3ForSing(javaProperties, "repository.java.ftl", TemplateEnums.REPOSITORY);
+    step3ForSing(javaProperties, "create.java.ftl", TemplateEnums.CreateRequest);
+    step3ForSing(javaProperties, "update.java.ftl", TemplateEnums.UpdateRequest);
+    step3ForSing(javaProperties, "response.java.ftl", TemplateEnums.Response);
+    step3ForSing(javaProperties, "query.java.ftl", TemplateEnums.QueryRequest);
+    step3ForSing(javaProperties, "persistenceservice.java.ftl", TemplateEnums.persistence);
+    step3ForSing(javaProperties, "persistenceserviceimpl.java.ftl", TemplateEnums.persistence_impl);
+    step3ForSing(javaProperties, "controller.java.ftl", TemplateEnums.CONTROLLER);
+
+
+  }
+
+  public void link(LinkTableInfo link) throws TemplateException, IOException {
+    String to = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,
+        link.tableName() + "_entity");
+
+    JavaProperties userEntity = new JavaProperties(to, link.tableName(),
+        link.getDesc(), packageName + "." + module + "." + "link",
+        commonPackage, packageName + "." + module);
+
+    userEntity.addField(Long.class, link.getLeft() + "Id", "", false, link.getLeft() + "Id",
+        link.getRight() + "Id");
+    userEntity.addField(Long.class, link.getRight() + "Id", "", false, link.getLeft() + "Id",
+        link.getRight() + "Id");
+
+    step3ForLink(userEntity, "link/entity.java.ftl", TemplateEnums.ENTITY);
+    step3ForLink(userEntity, "link/mapper.java.ftl", TemplateEnums.MAPPER);
+    step3ForLink(userEntity, "link/repository.java.ftl", TemplateEnums.REPOSITORY);
+    step3ForLink(userEntity, "link/create.java.ftl", TemplateEnums.CreateRequest);
+    step3ForLink(userEntity, "link/persistence.java.ftl", TemplateEnums.persistence);
+    step3ForLink(userEntity, "link/persistence.impl.java.ftl", TemplateEnums.persistence_impl);
+    step3ForLink(userEntity, "link/controller.java.ftl", TemplateEnums.CONTROLLER);
+  }
+
+  public String step3ForLink(JavaProperties javaProperties,
+      String templateName, TemplateEnums templateEnums) throws IOException, TemplateException {
+    Configuration configuration = new Configuration(
+        Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+
+    configuration.setDefaultEncoding("UTF-8");
+    // 指定模板的路径
+    configuration.setDirectoryForTemplateLoading(new File(javaTemplatePath));
+    // 根据模板名称获取路径下的模板
+    Template template = configuration.getTemplate(templateName);
+    String pg = BASE + "." + javaProperties.getPkg() + "." + templateEnums.getPackageName();
+    String javaName = javaProperties.getEntityName().concat(templateEnums.getFileSuffix());
+    String out = rootPath.concat(Stream.of(pg.split("\\."))
+        .collect(Collectors.joining("/", "/", "/" + javaName)));
+
+    StringWriter sw = new StringWriter();
+    template.process(javaProperties, sw);
+
+    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(out));
+
+    template.process(javaProperties, outputStreamWriter);
+    return sw.toString();
+
   }
 
 
@@ -163,9 +304,13 @@ public class CoreSAm {
 
     String to = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,
         tableInfo.getTableName() + "_entity");
-    JavaProperties po = new JavaProperties(to, tableInfo.getTableName(),
-        tableInfo.getTableDesc(), packageName,
-        commonPackage, commonPackage);
+    JavaProperties po = new JavaProperties(
+        to,
+        tableInfo.getTableName(),
+        tableInfo.getTableDesc(),
+        packageName + "."+module ,
+        commonPackage,
+        commonPackage);
     for (FieldInfo fieldInfo : tableInfo.getFieldInfos()) {
       po.addField(fieldInfo.getType().getClazz(), fieldInfo.getFieldName(),
           fieldInfo.getFieldDesc(), fieldInfo.isRange(), fieldInfo.isFk(), fieldInfo.isPid(),
@@ -174,7 +319,7 @@ public class CoreSAm {
     return po;
   }
 
-  public String step3(JavaProperties javaProperties,
+  public String step3ForSing(JavaProperties javaProperties,
       String templateName, TemplateEnums templateEnums) throws IOException, TemplateException {
     Configuration configuration = new Configuration(
         Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
@@ -184,7 +329,8 @@ public class CoreSAm {
     configuration.setDirectoryForTemplateLoading(new File(javaTemplatePath));
     // 根据模板名称获取路径下的模板
     Template template = configuration.getTemplate(templateName);
-    String pg = BASE+ "."+ javaProperties.getPkg() + "." + module + "." + templateEnums.getPackageName();
+    String pg =
+        BASE + "." + javaProperties.getPkg() + "."  + templateEnums.getPackageName();
     String javaName = javaProperties.getEntityName().concat(templateEnums.getFileSuffix());
     String out = rootPath.concat(Stream.of(pg.split("\\."))
         .collect(Collectors.joining("/", "/", "/" + javaName)));

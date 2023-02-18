@@ -1,14 +1,14 @@
-package ${pkg};
+package ${pkg}.controller;
 
 <#if pidField??>
 import cn.hutool.core.lang.tree.Tree;
 </#if>
-import ${pkg}.${entityName}PersistenceService;
-import ${pkg}.${entityName}QueryRequest;
-import ${pkg}.${entityName}Repository;
-import ${pkg}.${entityName}Response;
-import ${pkg}.${entityName}UpdateRequest;
-import ${pkg}.${entityName}CreateRequest;
+import ${pkg}.persistence.${entityName}PersistenceService;
+import ${pkg}.servlet.${entityName}QueryRequest;
+import ${pkg}.repository.${entityName}Repository;
+import ${pkg}.servlet.${entityName}Response;
+import ${pkg}.servlet.${entityName}UpdateRequest;
+import ${pkg}.servlet.${entityName}CreateRequest;
 import ${commomPKG}.PageAndSortRequest;
 import ${commomPKG}.ResultResponse;
 import ${commomPKG}.PageResponse;

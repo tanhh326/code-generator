@@ -5,7 +5,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import lombok.Getter;
 
+@Getter
 public class JavaProperties {
 
   private final String commomPKG;
@@ -28,8 +30,15 @@ public class JavaProperties {
   public LeftAndRight leftAndRight;
   private Field pidField;
   private boolean hasFk = false;
-  public JavaProperties(String entityName, String tableName, String tableDesc, String pkg,
-      String commomPKG, String lfEntPKG) {
+
+  public JavaProperties(
+
+      String entityName,
+      String tableName,
+      String tableDesc,
+      String pkg,
+      String commomPKG,
+      String lfEntPKG) {
     this.tableDesc = tableDesc;
     this.tableName = tableName;
     this.entityName = entityName;
@@ -86,7 +95,7 @@ public class JavaProperties {
   }
 
   public void addField(Class<?> type, String fieldName, String desc, boolean range, boolean fk,
-      boolean pid,boolean editor,boolean show,boolean query) {
+      boolean pid, boolean editor, boolean show, boolean query) {
 
     // 处理 java.lang
     final String pattern = "java.lang";
@@ -235,12 +244,15 @@ public class JavaProperties {
 
     private boolean show;
     private boolean editor;
+    private boolean query;
 
     public boolean isShow() {
       return show;
     }
 
-    private boolean query;
+    public void setShow(boolean show) {
+      this.show = show;
+    }
 
     public boolean isQuery() {
       return query;
@@ -248,10 +260,6 @@ public class JavaProperties {
 
     public void setQuery(boolean query) {
       this.query = query;
-    }
-
-    public void setShow(boolean show) {
-      this.show = show;
     }
 
     public boolean isEditor() {
