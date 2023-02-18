@@ -1,4 +1,5 @@
 package com.youcon.bp.cg.go.service.impl;
+import com.youcon.bp.cg.go.repository.CompanyEntityMapper;
 import java.util.ArrayList;
 import com.youcon.bp.cg.CreateValidate;
 import com.youcon.bp.cg.PageAndSortRequest;
@@ -38,6 +39,8 @@ public class CompanyEntityPersistenceServiceImpl implements CompanyEntityPersist
   protected CompanyEntityUpdateValidate updateValidate = new CompanyEntityUpdateValidate();
   @Autowired
   private CompanyEntityRepository companyEntityRepository;
+  @Autowired
+  private CompanyEntityMapper companyEntityMapper;
 
   @Transactional(rollbackFor = {Exception.class})
   @Override

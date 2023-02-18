@@ -49,7 +49,7 @@ public class CoreSAm {
   public static void main(String[] args) throws IOException, TemplateException {
 //    System.out.println(packageToPath("com.youkong.c"));
 
-    String rootPath = "/Users/zhangsan/git_repo/sample/basic-project/code-generator/src/main/java/com/youcon/bp/cg";
+    String rootPath = "D:\\git_repo\\youcon\\code-generator\\test\\";
     String vueExportPath = "/Users/zhangsan/git_repo/code-generator/hello-arco-pro/src/views/generator";
     String packageName = "com.github.huifer";
     String module = "user";
@@ -59,8 +59,8 @@ public class CoreSAm {
     CoreSAm sAm = new CoreSAm(
         rootPath, packageName, module, commonPackage, vueExportPath
     );
-//    sAm.singlet(tableInfo);
-    sAm.generatorVue(tableInfo);
+    sAm.singlet(tableInfo);
+//    sAm.generatorVue(tableInfo);
 
   }
 
@@ -116,16 +116,16 @@ public class CoreSAm {
     step1();
     JavaProperties javaProperties = step2(tableInfo);
 
-    step3(javaProperties, "entity.java.ftl", false, "");
-    step3(javaProperties, "mapper.java.ftl", false, "Mapper");
-    step3(javaProperties, "repository.java.ftl", false, "Repository");
-    step3(javaProperties, "create.java.ftl", false, "CreateRequest");
-    step3(javaProperties, "update.java.ftl", false, "UpdateRequest");
-    step3(javaProperties, "response.java.ftl", false, "Response");
-    step3(javaProperties, "query.java.ftl", false, "QueryRequest");
-    step3(javaProperties, "persistenceservice.java.ftl", false, "PersistenceService");
-    step3(javaProperties, "persistenceserviceimpl.java.ftl", true, "PersistenceServiceImpl");
-    step3(javaProperties, "controller.java.ftl", false, "Controller");
+    step3(javaProperties, "entity.java.ftl", TemplateEnums.ENTITY);
+    step3(javaProperties, "mapper.java.ftl", TemplateEnums.MAPPER);
+    step3(javaProperties, "repository.java.ftl", TemplateEnums.REPOSITORY);
+    step3(javaProperties, "create.java.ftl", TemplateEnums.CreateRequest);
+    step3(javaProperties, "update.java.ftl", TemplateEnums.UpdateRequest);
+    step3(javaProperties, "response.java.ftl", TemplateEnums.Response);
+    step3(javaProperties, "query.java.ftl", TemplateEnums.QueryRequest);
+    step3(javaProperties, "persistenceservice.java.ftl", TemplateEnums.persistence);
+    step3(javaProperties, "persistenceserviceimpl.java.ftl", TemplateEnums.persistence_impl);
+    step3(javaProperties, "controller.java.ftl", TemplateEnums.CONTROLLER);
   }
 
 
@@ -133,9 +133,10 @@ public class CoreSAm {
     step1();
     JavaProperties javaProperties = step2(tableInfo);
 
-    stepVue(javaProperties, "api.ts.ftl", tableInfo.getTableName()+"Api.ts");
+    stepVue(javaProperties, "api.ts.ftl", tableInfo.getTableName() + "Api.ts");
     stepVue(javaProperties, "index.vue.ftl", "index.vue");
   }
+
   public String stepVue(JavaProperties javaProperties, String templateName, String eg)
       throws IOException, TemplateException {
 
@@ -174,7 +175,7 @@ public class CoreSAm {
   }
 
   public String step3(JavaProperties javaProperties,
-      String templateName, boolean impl, String eg) throws IOException, TemplateException {
+      String templateName, TemplateEnums templateEnums) throws IOException, TemplateException {
     Configuration configuration = new Configuration(
         Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 
@@ -183,12 +184,8 @@ public class CoreSAm {
     configuration.setDirectoryForTemplateLoading(new File(javaTemplatePath));
     // 根据模板名称获取路径下的模板
     Template template = configuration.getTemplate(templateName);
-    String pg = javaProperties.getPkg() + "." + module;
-    if (impl) {
-      pg = pg + ".impl";
-    }
-    String javaName = javaProperties.getEntityName().concat(eg).concat(ext);
-
+    String pg = BASE+ "."+ javaProperties.getPkg() + "." + module + "." + templateEnums.getPackageName();
+    String javaName = javaProperties.getEntityName().concat(templateEnums.getFileSuffix());
     String out = rootPath.concat(Stream.of(pg.split("\\."))
         .collect(Collectors.joining("/", "/", "/" + javaName)));
 
@@ -209,9 +206,14 @@ public class CoreSAm {
     }
     generator(rootPath, packageToPath(packageName) + "." + commonPackage);
     generator(rootPath, packageToPath(packageName) + "." + module);
-    generator(rootPath, packageToPath(packageName) + "." + module + ".impl");
+    for (TemplateEnums value : TemplateEnums.values()) {
+      generator(rootPath, packageToPath(packageName) + "." + module + "." + value.getPackageName());
+    }
     generator(rootPath, packageToPath(packageName) + "." + module + ".link");
-    generator(rootPath, packageToPath(packageName) + "." + module + ".link.impl");
+    for (TemplateEnums value : TemplateEnums.values()) {
+      generator(rootPath,
+          packageToPath(packageName) + "." + module + ".link" + "." + value.getPackageName());
+    }
   }
 
 
