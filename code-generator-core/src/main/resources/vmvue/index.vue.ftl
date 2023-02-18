@@ -118,7 +118,8 @@
         </template>
       </a-table>
     </a-card>
-    <div id="addEntity">
+    <!-- 新增区域 -->
+    <div id="create">
       <a-modal v-model:visible="showVisible" @ok="submitAdd" @cancel="cancelAdd">
         <template #title>
           创建${tableDesc}
@@ -147,6 +148,15 @@
       </a-space>
     </a-form>
       </a-modal>
+    </div>
+    <!-- 查看区域 -->
+    <div id="byId">
+
+    </div>
+
+    <!-- 修改区域 -->
+    <div id="editor">
+      
     </div>
   </div>
 </template>

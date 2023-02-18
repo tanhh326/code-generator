@@ -1,402 +1,114 @@
 <template>
-  <div class="container">
-    <a-card class="general-card" title="部门列表">
-      <a-row>
-        <a-col :flex="1">
-          <a-form
-            :model="queryRequest"
-            :label-col-props="{ span: 6 }"
-            :wrapper-col-props="{ span: 18 }"
-            label-align="left"
-          >
-            <a-row :gutter="16">
-              <a-col :span="8">
-                <a-form-item
-                  field="name"
-                  label="部门名称"
-              >
-                  <a-input
-                    v-model="queryRequest.name"
-                    placeholder="请输入部门名称"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item
-                  field="companyId"
-                  label="单位id"
-              >
-                  <a-input
-                    v-model="queryRequest.companyId"
-                    placeholder="请输入单位id"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item
-                  field="pid"
-                  label="父id"
-              >
-                  <a-input
-                    v-model="queryRequest.pid"
-                    placeholder="请输入父id"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item
-                  field="leader"
-                  label="领导人"
-              >
-                  <a-input
-                    v-model="queryRequest.leader"
-                    placeholder="请输入领导人"
-                  />
-                </a-form-item>
-              </a-col>
-            </a-row>
-          </a-form>
-        </a-col>
-        <a-divider style="height: 84px" direction="vertical" />
-        <a-col :flex="'86px'" style="text-align: right">
-          <a-space direction="vertical" :size="18">
-            <a-button type="primary" @click="search">
-              <template #icon>
-                <icon-search />
-              </template>
-              查询
-            </a-button>
-            <a-button @click="reset">
-              <template #icon>
-                <icon-refresh />
-              </template>
-              重置
-            </a-button>
-          </a-space>
-        </a-col>
-      </a-row>
-      <a-divider style="margin-top: 0" />
-      <a-row style="margin-bottom: 16px">
-        <a-col :span="12">
-          <a-space>
-            <a-button type="primary" @click="showAdd">
-              <template #icon>
-                <icon-plus />
-              </template>
-                新增
-            </a-button>
-
-          </a-space>
-        </a-col>
-        <a-col
-          :span="12"
-          style="display: flex; align-items: center; justify-content: end"
-        >
-        </a-col>
-      </a-row>
-      <a-table
-        row-key="id"
-        :loading="loading"
-        :pagination="pagination"
-        :columns="columns"
-        :data="response"
-        :bordered="false"
-        :size="size"
-        @page-change="onPageChange"
-      >
-        <template #index="{ rowIndex }">
-          {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
-        </template>
-        <template #operations="{ record }">
-          <a-button size="small" type="text" @click="show(record)">
-            查看
-          </a-button>
-          <a-button size="small" type="text" @click="update(record)">
-            修改
-          </a-button>
-          <a-button size="small" type="text" @click="delte(record)">
-            删除
-          </a-button>
-        </template>
-      </a-table>
-    </a-card>
-    <div id="addEntity">
-      <a-modal v-model:visible="showVisible" @ok="submitAdd" @cancel="cancelAdd">
-        <template #title>
-          创建部门
-        </template>
-            <a-form layout="vertical" :model="formData">
-      <a-space direction="vertical" :size="16">
-        <a-card class="general-card">
-          <a-row :gutter="80">
-            <a-col :span="8">
-              <a-form-item
-                  label="部门名称"
-                  field="name"
-              >
-                <a-input
-                    v-model="formData.name"
-                    placeholder="请输入部门名称"
-                >
-                </a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item
-                  label="单位id"
-                  field="companyId"
-              >
-                <a-input
-                    v-model="formData.companyId"
-                    placeholder="请输入单位id"
-                >
-                </a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item
-                  label="父id"
-                  field="pid"
-              >
-                <a-input
-                    v-model="formData.pid"
-                    placeholder="请输入父id"
-                >
-                </a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item
-                  label="领导人"
-                  field="leader"
-              >
-                <a-input
-                    v-model="formData.leader"
-                    placeholder="请输入领导人"
-                >
-                </a-input>
-              </a-form-item>
-            </a-col>
-
-          </a-row>
-        </a-card>
-      </a-space>
-    </a-form>
-      </a-modal>
+  <a-space direction="vertical" size="large" fill>
+    <div>
+      <span>OnlyCurrent: </span>
+      <a-switch v-model="rowSelection.onlyCurrent"/>
     </div>
-  </div>
+    <a-table row-key="name" :columns="columns" :data="data" :row-selection="rowSelection"
+             v-model:selectedKeys="selectedKeys"
+             :pagination="pagination"
+             @page-change="onPageChange"
+    />
+  </a-space>
 </template>
 
 <script lang="ts" setup>
-import {computed, ref, reactive, onMounted} from 'vue';
-import {Message} from "@arco-design/web-vue";
 
-  import useLoading from '@/hooks/loading';
-  import { Pagination } from '@/types/global';
-  import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import {
-    DeptEntityCreate,
-    DeptEntityUpdate,
-    DeptEntityById,
-    DeptEntityPage,
-    DeptEntityDelete,
-    DeptEntityDeletes,
-    DeptEntityQueryRequest,
-    DeptEntityCreateRequest
-  } from "./deptApi";
+import {reactive, ref} from 'vue';
 
-  type SizeProps = 'mini' | 'small' | 'medium' | 'large';
+const onPageChange = (current: number) => {
 
-  // 外部
-  const generateFormModel:DeptEntityQueryRequest = {
-      // 部门名称
-      name:"",
-      // 单位id
-      companyId:"",
-      // 父id
-      pid:"",
-      // 领导人
-      leader:"",
-  };
-  const { loading, setLoading } = useLoading(true);
-  const response = ref([]);
-  const queryRequest = ref(generateFormModel);
+  console.log(current);
+};
 
-  const size = ref<SizeProps>('medium');
+const selectedKeys = ref(['Jane Doe', 'Alisa Ross']);
 
-  const basePagination: Pagination = {
-    current: 0,
-    pageSize: 20,
-  };
-  const pagination = reactive({
-    ...basePagination,
-  });
+const rowSelection = reactive({
+  type: 'checkbox',
+  showCheckedAll: true,
+  onlyCurrent: false,
+});
+const pagination = {pageSize: 2}
 
-  // 需要显示的字段
-  const columns = computed<TableColumnData[]>(() => [
-    {
-      title: "部门名称",
-      dataIndex: 'name',
-    },
-    {
-      title: "单位id",
-      dataIndex: 'companyId',
-    },
-    {
-      title: "父id",
-      dataIndex: 'pid',
-    },
-    {
-      title: "领导人",
-      dataIndex: 'leader',
-    },
-    {
-      title: "操作列",
-      dataIndex: 'operations',
-      slotName: 'operations',
-    },
-  ]);
-
-  // 搜索接口
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      let page = {
-        size: basePagination.pageSize,
-        page: basePagination.current == 0 ? 0 : basePagination.current - 1,
-      }
-      let {data} = await DeptEntityPage(queryRequest.value,page)
-      response.value = data.data;
-      pagination.current = data.page - 1;
-      pagination.total = data.total;
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  // 查看所需调用接口
-  const show = async (recode: any) => {
-    const {data} = await DeptEntityById(recode.id);
-    console.log("查看接口调用",data)
-  }
-  // 更新所需调用接口
-  const update = (recode: any) => {
-    console.log(recode);
-  }
-  // 删除所修调用接口
-  const delte = (recode: any) => {
-    console.log(recode);
-  }
-  // 搜索接口
-  const search = () => {
-    console.log(queryRequest.value);
-  };
-  // 当页码发送变化时处理的接口
-  const onPageChange = (current: number) => {
-    
-  };
-
-
-  const create:DeptEntityCreateRequest={
-    name: '',
-    companyId: '',
-    pid: '',
-    leader: '',
-  }
-  const formData = ref(create);
-   // 查询条件清空的情况
-  const reset = async () => {
-    let page = {
-      size: 20,
-      page: 0,
-
-    }
-
-    queryRequest.value = {
-      // 部门名称
-      name:"",
-      // 单位id
-      companyId:"",
-      // 父id
-      pid:"",
-      // 领导人
-      leader:"",
-    }
-
-    let {data} = await DeptEntityPage(queryRequest.value,page)
-    response.value = data.data;
-    pagination.current = data.page -1;
-    pagination.total = data.total;
-
-  };
-
-  // 新增显示弹框是否出现标记
-  const showVisible = ref(false);
-  // 显示新增弹框
-  const showAdd = ()=>{
-    showVisible.value  = true
-  }
-  // 提交请求
-  const  submitAdd = async ()=>{
-      console.log(formData.value)
-      await DeptEntityCreate(formData.value).then(
-        (res)=>{
-          if (res.code == 20000) {
-            Message.success("创建成功")
-            fetchData()
-          }
-      }
-  )
-    showVisible.value  = false
-
-  }
-  // 取消新增显示框
-  const cancelAdd = ()=>{
-    showVisible.value  = false
-
-  }
-
-  onMounted(()=>{
-    fetchData()
-  })
-
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+  },
+  {
+    title: 'Salary',
+    dataIndex: 'salary',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+  },
+]
+const data = reactive([{
+  key: '1',
+  name: 'Jane Doe',
+  salary: 23000,
+  address: '32 Park Road, London',
+  email: 'jane.doe@example.com'
+}, {
+  key: '2',
+  name: 'Alisa Ross',
+  salary: 25000,
+  address: '35 Park Road, London',
+  email: 'alisa.ross@example.com'
+}, {
+  key: '3',
+  name: 'Kevin Sandra',
+  salary: 22000,
+  address: '31 Park Road, London',
+  email: 'kevin.sandra@example.com',
+  disabled: true
+}, {
+  key: '4',
+  name: 'Ed Hellen',
+  salary: 17000,
+  address: '42 Park Road, London',
+  email: 'ed.hellen@example.com'
+}, {
+  key: '5',
+  name: 'William Smith',
+  salary: 27000,
+  address: '62 Park Road, London',
+  email: 'william.smith@example.com'
+}, {
+  key: '6',
+  name: 'Jane Doe 2',
+  salary: 15000,
+  address: '32 Park Road, London',
+  email: 'jane.doe@example.com'
+}, {
+  key: '7',
+  name: 'Alisa Ross 2',
+  salary: 28000,
+  address: '35 Park Road, London',
+  email: 'alisa.ross@example.com'
+}, {
+  key: '8',
+  name: 'Kevin Sandra 2',
+  salary: 26000,
+  address: '31 Park Road, London',
+  email: 'kevin.sandra@example.com',
+}, {
+  key: '9',
+  name: 'Ed Hellen 2',
+  salary: 18000,
+  address: '42 Park Road, London',
+  email: 'ed.hellen@example.com'
+}, {
+  key: '10',
+  name: 'William Smith 2',
+  salary: 12000,
+  address: '62 Park Road, London',
+  email: 'william.smith@example.com'
+}])
 
 </script>
-
-<script lang="ts">
-  export default {
-    name: 'DeptEntity',
-  };
-</script>
-
-<style scoped lang="less">
-  .container {
-    padding: 0 20px 20px 20px;
-  }
-  :deep(.arco-table-th) {
-    &:last-child {
-      .arco-table-th-item-title {
-        margin-left: 16px;
-      }
-    }
-  }
-  .action-icon {
-    margin-left: 12px;
-    cursor: pointer;
-  }
-  .active {
-    color: #0960bd;
-    background-color: #e3f4fc;
-  }
-  .setting {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    .title {
-      margin-left: 12px;
-      cursor: pointer;
-    }
-  }
-</style>

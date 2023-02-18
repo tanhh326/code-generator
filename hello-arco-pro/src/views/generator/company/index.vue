@@ -85,16 +85,13 @@
       </a-row>
       <a-table
         row-key="id"
-        :loading="loading"
-        :pagination="pagination"
+        :pagination="pagination.data"
         :columns="columns"
         :data="response"
-        :bordered="false"
-        :size="size"
         @page-change="onPageChange"
       >
         <template #index="{ rowIndex }">
-          {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
+          {{ rowIndex + 1 + (pagination.data.current - 1) * pagination.data.pageSize }}
         </template>
         <template #operations="{ record }">
           <a-button size="small" type="text" @click="show(record)">
@@ -213,12 +210,12 @@ import {Message} from "@arco-design/web-vue";
 
   const size = ref<SizeProps>('medium');
 
-  const basePagination: Pagination = {
-    current: 0,
-    pageSize: 20,
-  };
   const pagination = reactive({
-    ...basePagination,
+    data: {
+      current: 0,
+      pageSize: 10,
+      total:100
+    },
   });
 
   // 需要显示的字段
@@ -247,14 +244,18 @@ import {Message} from "@arco-design/web-vue";
     setLoading(true);
     try {
       let page = {
-        size: basePagination.pageSize,
-        page: basePagination.current == 0 ? 0 : basePagination.current - 1,
+        size: pagination.data.pageSize,
+        page: pagination.data.current == 0 ? 0 : pagination.data.current - 1,
       }
       let {data} = await CompanyEntityPage(queryRequest.value,page)
       response.value = data.data;
-      pagination.current = data.page - 1;
-      pagination.total = data.total;
+      pagination.data.current = data.page;
+      pagination.data.total = data.total;
+      console.log("当前分页信息")
+      console.log(pagination);
+
     } catch (err) {
+
     } finally {
       setLoading(false);
     }
@@ -279,8 +280,15 @@ import {Message} from "@arco-design/web-vue";
     console.log(queryRequest.value);
   };
   // 当页码发送变化时处理的接口
-  const onPageChange = (current: number) => {
-    
+  const onPageChange =async (current: number) => {
+    let page = {
+      size: pagination.data.pageSize,
+      page: current -1
+    }
+    let {data} = await CompanyEntityPage(queryRequest.value,page)
+    response.value = data.data;
+    pagination.data.current = data.page -1;
+    pagination.data.total = data.total;
   };
 
 
