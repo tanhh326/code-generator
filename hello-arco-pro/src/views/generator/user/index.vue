@@ -34,17 +34,6 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item
-                  field="password"
-                  label="密码"
-              >
-                  <a-input
-                    v-model="queryRequest.password"
-                    placeholder="请输入密码"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item
                   field="email"
                   label="邮箱"
               >
@@ -54,6 +43,29 @@
                   />
                 </a-form-item>
               </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="phone"
+                  label="手机"
+              >
+                  <a-input
+                    v-model="queryRequest.phone"
+                    placeholder="请输入手机"
+                  />
+                </a-form-item>
+              </a-col>
+                <a-col :span="8">
+                  <a-form-item
+                    field="days"
+                    label="生日"
+                  >
+                    <a-date-picker
+                      show-time
+                      v-model="queryRequest.days"
+                      style="width: 100%"
+                    />
+                  </a-form-item>
+                </a-col>
             </a-row>
           </a-form>
         </a-col>
@@ -151,6 +163,11 @@ import {computed, ref, reactive, onMounted} from 'vue';
       password:"",
       // 邮箱
       email:"",
+      // 手机
+      phone:"",
+      // 生日
+      day:"",
+      days:[],
   };
   const { loading, setLoading } = useLoading(true);
   const response = ref([]);
@@ -177,12 +194,16 @@ import {computed, ref, reactive, onMounted} from 'vue';
       dataIndex: 'age',
     },
     {
-      title: "密码",
-      dataIndex: 'password',
-    },
-    {
       title: "邮箱",
       dataIndex: 'email',
+    },
+    {
+      title: "手机",
+      dataIndex: 'phone',
+    },
+    {
+      title: "生日",
+      dataIndex: 'day',
     },
   ]);
 

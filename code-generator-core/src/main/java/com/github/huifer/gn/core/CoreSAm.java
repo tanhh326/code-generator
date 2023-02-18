@@ -50,7 +50,7 @@ public class CoreSAm {
 //    System.out.println(packageToPath("com.youkong.c"));
 
     String rootPath = "D:\\git_repo\\youcon\\code-generator\\test\\";
-    String vueExportPath = "/Users/zhangsan/git_repo/code-generator/hello-arco-pro/src/views/generator";
+    String vueExportPath = "D:\\git_repo\\youcon\\code-generator\\hello-arco-pro\\src\\views\\generator";
     String packageName = "com.github.huifer";
     String module = "user";
     String commonPackage = "com.youcon.bp.cg";
@@ -68,7 +68,12 @@ public class CoreSAm {
     sAm.link(userBindDept);
     sAm.link(deptBindPost);
     sAm.link(userBindPost);
-//    sAm.generatorVue(tableInfo);
+
+
+    sAm.generatorVue(UserInfo());
+    sAm.generatorVue(postInfo());
+    sAm.generatorVue(DeptInfo());
+    sAm.generatorVue(companyInfo());
 
   }
 
@@ -292,7 +297,7 @@ public class CoreSAm {
     StringWriter sw = new StringWriter();
     template.process(javaProperties, sw);
     String s = sw.toString();
-    String out = vueExportPath.concat(String.valueOf(File.separatorChar)).concat(eg);
+    String out = vueExportPath.concat(String.valueOf(File.separatorChar)).concat(javaProperties.getTableName()).concat(String.valueOf(File.separatorChar)) .concat(eg);
     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(out));
 
     template.process(javaProperties, outputStreamWriter);
