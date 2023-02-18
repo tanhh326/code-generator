@@ -28,7 +28,7 @@ import ${commomPKG}.PageAndSortRequest;
 import ${commomPKG}.PageResponse;
 import ${commomPKG}.SortRequest;
 import ${commomPKG}.UpdateValidate;
-import ${pkg}.servlet.${entityName};
+import ${pkg}.entity.${entityName};
 import ${pkg}.servlet.${entityName}CreateRequest;
 <#--import ${pkg}.${entityName}Mapper;-->
 import ${pkg}.persistence.${entityName}PersistenceService;
@@ -145,7 +145,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
           List<Predicate> predicatesList = new ArrayList<>();
       <#list fields as field>
         <#if field.fieldType  == "String">
-          if (StringUtils.isNotBlank(request.${dashedToCamel("get_${field.fieldName}")})) {
+          if (StringUtils.isNotBlank(request.${dashedToCamel("get_${field.fieldName}")}())) {
             predicatesList.add(criteriaBuilder.like(root.get("${field.fieldName}"), "%"+request.${dashedToCamel("get_${field.fieldName}")}()+"%"));
           }
         <#elseif field.range>
@@ -154,7 +154,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
             predicatesList.add(criteriaBuilder.between(root.get("${field.fieldName}"), ${field.fieldName}s.get(0), ${field.fieldName}s.get(1)));
           }
         <#else >
-          if (request.${dashedToCamel("get_${field.fieldName}")} != null){
+          if (request.${dashedToCamel("get_${field.fieldName}")}() != null){
             predicatesList.add(criteriaBuilder.equal(root.get("${field.fieldName}"), request.${dashedToCamel("get_${field.fieldName}")}()));
           }
         </#if>
@@ -181,7 +181,7 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
           List<Predicate> predicatesList = new ArrayList<>();
       <#list fields as field>
         <#if field.fieldType  == "String">
-          if (StringUtils.isNotBlack(request.${dashedToCamel("get_${field.fieldName}")}())){
+          if (StringUtils.isNotBlank(request.${dashedToCamel("get_${field.fieldName}")}())){
             predicatesList.add(criteriaBuilder.like(root.get("${field.fieldName}"), "%"+request.${dashedToCamel("get_${field.fieldName}")}()+"%"));
           }
         <#elseif field.range>
@@ -226,14 +226,18 @@ public class ${entityName}PersistenceServiceImpl implements ${entityName}Persist
         List<Predicate> predicatesList = new ArrayList<>();
   <#list fields as field>
       <#if field.fieldType  == "String">
-        predicatesList.add(criteriaBuilder.like(root.get("${field.fieldName}"), "%"+request.${dashedToCamel("get_${field.fieldName}")}()+"%"));
+        if (StringUtils.isNotBlank(request.${dashedToCamel("get_${field.fieldName}")}())){
+          predicatesList.add(criteriaBuilder.like(root.get("${field.fieldName}"), "%"+request.${dashedToCamel("get_${field.fieldName}")}()+"%"));
+        }
       <#elseif field.range>
         List<${field.fieldType}> ${field.fieldName}s = request.${dashedToCamel("get_${field.fieldName}")}s();
         if (!CollectionUtils.isEmpty(${field.fieldName}s)) {
           predicatesList.add(criteriaBuilder.between(root.get("${field.fieldName}"), ${field.fieldName}s.get(0), ${field.fieldName}s.get(1)));
         }
       <#else >
-        predicatesList.add(criteriaBuilder.equal(root.get("${field.fieldName}"), request.${dashedToCamel("get_${field.fieldName}")}()));
+        if (request.${dashedToCamel("get_${field.fieldName}")}() != null){
+          predicatesList.add(criteriaBuilder.equal(root.get("${field.fieldName}"), request.${dashedToCamel("get_${field.fieldName}")}()));
+        }
       </#if>
   </#list>
         Predicate[] predicates = new Predicate[predicatesList.size()];

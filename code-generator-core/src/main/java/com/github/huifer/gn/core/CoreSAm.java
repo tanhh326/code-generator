@@ -350,7 +350,8 @@ public class CoreSAm {
     if (!rootPathFile.exists()) {
       rootPathFile.mkdirs();
     }
-    generator(rootPath, packageToPath(packageName) + "." + commonPackage);
+    generator(rootPath, packageToPath(packageName)  );
+    generator(rootPath, packageToPath(commonPackage) );
     generator(rootPath, packageToPath(packageName) + "." + module);
     for (TemplateEnums value : TemplateEnums.values()) {
       generator(rootPath, packageToPath(packageName) + "." + module + "." + value.getPackageName());

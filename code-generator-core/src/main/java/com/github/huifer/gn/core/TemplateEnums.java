@@ -3,10 +3,10 @@ package com.github.huifer.gn.core;
 public enum TemplateEnums {
   CONTROLLER("controller.java.ftl", "Controller.java", "controller"),
   ENTITY("entity.java.ftl", ".java", "entity"),
-  CreateRequest("create.java.ftl", "CreateRequest.Java", "servlet"),
-  UpdateRequest("update.java.ftl", "UpdateRequest.Java", "servlet"),
-  Response("response.java.ftl", "Response.Java", "servlet"),
-  QueryRequest("query.java.ftl", "QueryRequest.Java", "servlet"),
+  CreateRequest("create.java.ftl", "CreateRequest.java", "servlet"),
+  UpdateRequest("update.java.ftl", "UpdateRequest.java", "servlet"),
+  Response("response.java.ftl", "Response.java", "servlet"),
+  QueryRequest("query.java.ftl", "QueryRequest.java", "servlet"),
   persistence("persistenceservice.java.ftl", "PersistenceService.java", "persistence"),
   persistence_impl("persistenceserviceimpl.java.ftl", "PersistenceServiceImpl.java", "persistence.impl"),
 

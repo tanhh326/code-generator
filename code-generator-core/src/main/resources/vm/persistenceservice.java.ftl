@@ -5,9 +5,9 @@ import ${commomPKG}.PageAndSortRequest;
 import ${commomPKG}.PageResponse;
 import java.util.List;
 import cn.hutool.core.lang.tree.Tree;
+import ${pkg}.entity.${entityName};
 import ${pkg}.servlet.${entityName}CreateRequest;
 import ${pkg}.servlet.${entityName}QueryRequest;
-import ${pkg}.servlet.${entityName}Repository;
 import ${pkg}.servlet.${entityName}Response;
 import ${pkg}.servlet.${entityName}UpdateRequest;
 
