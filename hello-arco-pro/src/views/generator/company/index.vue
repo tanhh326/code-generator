@@ -235,6 +235,11 @@ import {Message} from "@arco-design/web-vue";
       title: "地址",
       dataIndex: 'address',
     },
+    {
+      title: "操作列",
+      dataIndex: 'operations',
+      slotName: 'operations',
+    },
   ]);
 
   // 搜索接口
@@ -243,11 +248,11 @@ import {Message} from "@arco-design/web-vue";
     try {
       let page = {
         size: basePagination.pageSize,
-        page: basePagination.current
+        page: basePagination.current == 0 ? 0 : basePagination.current - 1,
       }
       let {data} = await CompanyEntityPage(queryRequest.value,page)
       response.value = data.data;
-      pagination.current = data.page;
+      pagination.current = data.page - 1;
       pagination.total = data.total;
     } catch (err) {
     } finally {
@@ -257,8 +262,9 @@ import {Message} from "@arco-design/web-vue";
 
 
   // 查看所需调用接口
-  const show = (recode: any) => {
-    console.log(recode);
+  const show = async (recode: any) => {
+    const {data} = await CompanyEntityById(recode.id);
+    console.log("查看接口调用",data)
   }
   // 更新所需调用接口
   const update = (recode: any) => {
@@ -274,7 +280,7 @@ import {Message} from "@arco-design/web-vue";
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {
-    fetchData()
+    
   };
 
 
@@ -286,8 +292,29 @@ import {Message} from "@arco-design/web-vue";
   }
   const formData = ref(create);
    // 查询条件清空的情况
-  const reset = () => {
-    fetchData();
+  const reset = async () => {
+    let page = {
+      size: 20,
+      page: 0,
+
+    }
+
+    queryRequest.value = {
+      // 单位名称
+      name:"",
+      // 父id
+      pid:"",
+      // 图标
+      logo:"",
+      // 地址
+      address:"",
+    }
+
+    let {data} = await CompanyEntityPage(queryRequest.value,page)
+    response.value = data.data;
+    pagination.current = data.page -1;
+    pagination.total = data.total;
+
   };
 
   // 新增显示弹框是否出现标记

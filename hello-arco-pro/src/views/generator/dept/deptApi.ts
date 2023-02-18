@@ -25,7 +25,7 @@ export function DeptEntityByIds(ids:string[]) {
 
 // 根据id集合查询（树结构）
 export function DeptEntityByIdsTree(ids:string[]){
-  return axios.get('/dept/byIds/tree',{params: {ids: ids.join(",")});
+  return axios.get('/dept/byIds/tree',{params: {ids: ids.join(",")}});
 }
 
 // 部门列表

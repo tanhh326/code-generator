@@ -26,7 +26,7 @@ export function ${entityName}ByIds(ids:string[]) {
 <#if pidField??>
 // 根据id集合查询（树结构）
 export function ${entityName}ByIdsTree(ids:string[]){
-  return axios.get('/${tableName}/byIds/tree',{params: {ids: ids.join(",")});
+  return axios.get('/${tableName}/byIds/tree',{params: {ids: ids.join(",")}});
 }
 </#if>
 
