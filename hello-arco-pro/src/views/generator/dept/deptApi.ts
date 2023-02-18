@@ -97,7 +97,6 @@ export interface  DeptEntityResponse{
 
 // 部门创建参数
 export interface DeptEntityCreateRequest{
-id:  string;
   // 部门名称
   name:string;
   // 单位id
@@ -110,6 +109,7 @@ id:  string;
 
 // 部门修改参数
 export interface DeptEntityUpdateRequest{
+  id:  string;
   // 部门名称
     name:string;
   // 单位id

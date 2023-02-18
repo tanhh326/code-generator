@@ -281,6 +281,7 @@ public class CoreSAm {
 
     stepVue(javaProperties, "api.ts.ftl", tableInfo.getTableName() + "Api.ts");
     stepVue(javaProperties, "index.vue.ftl", "index.vue");
+    stepVue(javaProperties, "add.vue.ftl", "add.vue");
   }
 
   public String stepVue(JavaProperties javaProperties, String templateName, String eg)

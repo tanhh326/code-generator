@@ -66,13 +66,13 @@ export interface  PostEntityResponse{
 
 // 岗位创建参数
 export interface PostEntityCreateRequest{
-id:  string;
   // 岗位名称
   name:string;
 }
 
 // 岗位修改参数
 export interface PostEntityUpdateRequest{
+  id:  string;
   // 岗位名称
     name:string;
 }

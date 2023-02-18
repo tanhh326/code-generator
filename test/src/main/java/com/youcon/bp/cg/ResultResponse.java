@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class ResultResponse<T> {
 
-  public static final String SUCCESS_CODE = "ok";
-  public static final String ERROR_CODE = "error";
-  private String code;
+  public static final Integer SUCCESS_CODE = 20000;
+  public static final Integer ERROR_CODE = 40501;
+  private Integer code;
   private T data;
   private String msg;
 
@@ -52,7 +52,7 @@ public class ResultResponse<T> {
     return resultResponse;
   }
 
-  public static <T> ResultResponse<T> error(String code, String msg) {
+  public static <T> ResultResponse<T> error(Integer code, String msg) {
 
     ResultResponse resultResponse = new ResultResponse();
     resultResponse.setCode(code);

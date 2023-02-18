@@ -72,7 +72,6 @@ export interface  CompanyEntityResponse{
 
 // 单位创建参数
 export interface CompanyEntityCreateRequest{
-id:  string;
   // 单位名称
   name:string;
   // 父id
@@ -85,6 +84,7 @@ id:  string;
 
 // 单位修改参数
 export interface CompanyEntityUpdateRequest{
+  id:  string;
   // 单位名称
     name:string;
   // 父id

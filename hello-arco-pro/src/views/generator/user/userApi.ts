@@ -76,7 +76,6 @@ export interface  UserEntityResponse{
 
 // 用户创建参数
 export interface UserEntityCreateRequest{
-id:  string;
   // 用户名
   username:string;
   // 年龄
@@ -93,6 +92,7 @@ id:  string;
 
 // 用户修改参数
 export interface UserEntityUpdateRequest{
+  id:  string;
   // 用户名
     username:string;
   // 年龄

@@ -105,7 +105,6 @@ export interface  ${entityName}Response{
 
 // ${tableDesc}创建参数
 export interface ${entityName}CreateRequest{
-id:  string;
 <#list  fields as field>
   // ${field.fieldDesc}
   ${field.fieldName}:string;
@@ -114,6 +113,7 @@ id:  string;
 
 // ${tableDesc}修改参数
 export interface ${entityName}UpdateRequest{
+  id:  string;
 <#list  fields as field>
   // ${field.fieldDesc}
     ${field.fieldName}:string;

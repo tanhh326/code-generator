@@ -23,6 +23,16 @@ const GENERATOR: AppRouteRecordRaw = {
       },
     },
     {
+      path: 'company-add',
+      name: 'CompanyAdd',
+      component: () => import('@/views/generator/company/add.vue'),
+      meta: {
+        locale: '企业添加',
+        requiresAuth: true,
+        roles: ['*'],
+      },
+    },
+    {
       path: 'dept',
       name: 'Dept',
       component: () => import('@/views/generator/dept/index.vue'),
