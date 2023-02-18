@@ -79,7 +79,7 @@ const onSubmitClick = async () => {
 
 <script lang="ts">
 export default {
-  name: 'Add',
+  name: '${entityName}Add',
 };
 </script>
 

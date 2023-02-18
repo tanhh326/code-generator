@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <a-card class="general-card" title="查询表格">
+    <a-card class="general-card" title="部门列表">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -79,7 +79,7 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="12">
           <a-space>
-            <a-button type="primary">
+            <a-button type="primary" @click="showAdd">
               <template #icon>
                 <icon-plus />
               </template>
@@ -120,11 +120,77 @@
         </template>
       </a-table>
     </a-card>
+    <div id="addEntity">
+      <a-modal v-model:visible="showVisible" @ok="submitAdd" @cancel="cancelAdd">
+        <template #title>
+          创建部门
+        </template>
+            <a-form layout="vertical" :model="formData">
+      <a-space direction="vertical" :size="16">
+        <a-card class="general-card">
+          <a-row :gutter="80">
+            <a-col :span="8">
+              <a-form-item
+                  label="部门名称"
+                  field="name"
+              >
+                <a-input
+                    v-model="formData.name"
+                    placeholder="请输入部门名称"
+                >
+                </a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item
+                  label="单位id"
+                  field="companyId"
+              >
+                <a-input
+                    v-model="formData.companyId"
+                    placeholder="请输入单位id"
+                >
+                </a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item
+                  label="父id"
+                  field="pid"
+              >
+                <a-input
+                    v-model="formData.pid"
+                    placeholder="请输入父id"
+                >
+                </a-input>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item
+                  label="领导人"
+                  field="leader"
+              >
+                <a-input
+                    v-model="formData.leader"
+                    placeholder="请输入领导人"
+                >
+                </a-input>
+              </a-form-item>
+            </a-col>
+
+          </a-row>
+        </a-card>
+      </a-space>
+    </a-form>
+      </a-modal>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {computed, ref, reactive, onMounted} from 'vue';
+import {Message} from "@arco-design/web-vue";
+
   import useLoading from '@/hooks/loading';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
@@ -135,8 +201,9 @@ import {computed, ref, reactive, onMounted} from 'vue';
     DeptEntityPage,
     DeptEntityDelete,
     DeptEntityDeletes,
-    DeptEntityQueryRequest
-    } from "./deptApi";
+    DeptEntityQueryRequest,
+    DeptEntityCreateRequest
+  } from "./deptApi";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 
@@ -158,7 +225,7 @@ import {computed, ref, reactive, onMounted} from 'vue';
   const size = ref<SizeProps>('medium');
 
   const basePagination: Pagination = {
-    current: 1,
+    current: 0,
     pageSize: 20,
   };
   const pagination = reactive({
@@ -186,17 +253,17 @@ import {computed, ref, reactive, onMounted} from 'vue';
   ]);
 
   // 搜索接口
-  const fetchData =  () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
       let page = {
         size: basePagination.pageSize,
         page: basePagination.current
       }
-      let c = DeptEntityPage(queryRequest.value,page)
-      response.value = [];
-      pagination.current = 0;
-      pagination.total = 100;
+      let {data} = await DeptEntityPage(queryRequest.value,page)
+      response.value = data.data;
+      pagination.current = data.page;
+      pagination.total = data.total;
     } catch (err) {
     } finally {
       setLoading(false);
@@ -222,12 +289,47 @@ import {computed, ref, reactive, onMounted} from 'vue';
   };
   // 当页码发送变化时处理的接口
   const onPageChange = (current: number) => {
+    fetchData()
   };
 
+
+  const create:DeptEntityCreateRequest={
+    name: '',
+    companyId: '',
+    pid: '',
+    leader: '',
+  }
+  const formData = ref(create);
    // 查询条件清空的情况
   const reset = () => {
+    fetchData();
   };
 
+  // 新增显示弹框是否出现标记
+  const showVisible = ref(false);
+  // 显示新增弹框
+  const showAdd = ()=>{
+    showVisible.value  = true
+  }
+  // 提交请求
+  const  submitAdd = async ()=>{
+      console.log(formData.value)
+      await DeptEntityCreate(formData.value).then(
+        (res)=>{
+          if (res.code == 20000) {
+            Message.success("创建成功")
+            fetchData()
+          }
+      }
+  )
+    showVisible.value  = false
+
+  }
+  // 取消新增显示框
+  const cancelAdd = ()=>{
+    showVisible.value  = false
+
+  }
 
   onMounted(()=>{
     fetchData()
